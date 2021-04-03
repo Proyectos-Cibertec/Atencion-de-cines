@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import javax.swing.JDesktopPane;
@@ -19,7 +20,11 @@ import java.awt.CardLayout;
 import java.awt.Frame;
 import javax.swing.JLabel;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Desktop;
+
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class MenuPrincipal extends JFrame implements ActionListener {
 
@@ -86,54 +91,69 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		setJMenuBar(menuBar);
 		
 		mnArchivo = new JMenu("Archivo");
+		mnArchivo.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemArchivo.png")));
 		menuBar.add(mnArchivo);
 		
 		mntmSalir = new JMenuItem("Salir");
+		mntmSalir.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemSalir.png")));
 		mntmSalir.addActionListener(this);
 		mnArchivo.add(mntmSalir);
 		
 		mnMantenimiento = new JMenu("Mantenimiento");
+		mnMantenimiento.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemMantenimiento2.png")));
+		mnMantenimiento.setHorizontalAlignment(SwingConstants.LEFT);
 		menuBar.add(mnMantenimiento);
 		
 		mntmEmpleado = new JMenuItem("Empleados");
+		mntmEmpleado.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemEmpleado.png")));
 		mntmEmpleado.addActionListener(this);
 		mnMantenimiento.add(mntmEmpleado);
 		
 		mntmClientes = new JMenuItem("Clientes");
+		mntmClientes.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemCliente.png")));
 		mntmClientes.addActionListener(this);
 		mnMantenimiento.add(mntmClientes);
 		
 		mntmCines = new JMenuItem("Cines");
+		mntmCines.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemCine.png")));
 		mntmCines.addActionListener(this);
 		mnMantenimiento.add(mntmCines);
 		
 		mntmSalas = new JMenuItem("Salas");
+		mntmSalas.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemSala.png")));
 		mntmSalas.addActionListener(this);
 		mnMantenimiento.add(mntmSalas);
 		
 		mntmPelculas = new JMenuItem("Pel\u00EDculas");
+		mntmPelculas.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemPelicula.png")));
 		mntmPelculas.addActionListener(this);
 		mnMantenimiento.add(mntmPelculas);
 		
 		mntmFunciones = new JMenuItem("Funciones");
+		mntmFunciones.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemFuncion.png")));
 		mntmFunciones.addActionListener(this);
 		mnMantenimiento.add(mntmFunciones);
 		
 		mnReserva = new JMenu("Reservas");
+		mnReserva.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemTicket.png")));
 		menuBar.add(mnReserva);
 		
 		mntmReservaDeButaca = new JMenuItem("Reserva de butacas");
+		mntmReservaDeButaca.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemButaca.png")));
 		mntmReservaDeButaca.addActionListener(this);
 		mnReserva.add(mntmReservaDeButaca);
 		
 		mnPago = new JMenu("Pagos");
+		mnPago.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemVender.png")));
 		menuBar.add(mnPago);
 		
 		mntmPagoDeReservas = new JMenuItem("Pago de Reservas");
+		mntmPagoDeReservas.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemPago.png")));
 		mntmPagoDeReservas.addActionListener(this);
 		mnPago.add(mntmPagoDeReservas);
 		
 		mnReportes = new JMenu("Reportes");
+		mnReportes.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemGenerarReporte.png")));
 		menuBar.add(mnReportes);
 		
 		mntmReporte1 = new JMenuItem("Reporte 1");
@@ -165,12 +185,17 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		mnReportes.add(mntmReporte7);
 		
 		mnAyuda = new JMenu("Ayuda");
+		mnAyuda.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemAyuda.png")));
 		menuBar.add(mnAyuda);
 		
 		mntmManualDelUsuario = new JMenuItem("Manual del usuario");
+		mntmManualDelUsuario.addActionListener(this);
+		mntmManualDelUsuario.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemManualUsuario.png")));
 		mnAyuda.add(mntmManualDelUsuario);
 		
 		mntmAcercaDeAtencin = new JMenuItem("Acerca de Atenci\u00F3n de Cines");
+		mntmAcercaDeAtencin.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/itemAbout.png")));
+		mntmAcercaDeAtencin.addActionListener(this);
 		mnAyuda.add(mntmAcercaDeAtencin);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -181,49 +206,68 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		contentPane.add(escritorio, "name_58280710821134");
 		
 		lblCodigo = new JLabel("C\u00F3digo");
-		lblCodigo.setForeground(Color.YELLOW);
-		lblCodigo.setBounds(130, 21, 90, 14);
+		lblCodigo.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblCodigo.setForeground(Color.BLACK);
+		lblCodigo.setBounds(779, 0, 225, 37);
 		escritorio.add(lblCodigo);
 		
 		lblNombres = new JLabel("Nombres");
-		lblNombres.setForeground(Color.YELLOW);
-		lblNombres.setBounds(130, 46, 90, 14);
+		lblNombres.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNombres.setForeground(Color.BLACK);
+		lblNombres.setBounds(779, 33, 225, 38);
 		escritorio.add(lblNombres);
 		
 		lblApellidos = new JLabel("Apelidos");
-		lblApellidos.setForeground(Color.YELLOW);
-		lblApellidos.setBounds(130, 71, 90, 14);
+		lblApellidos.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblApellidos.setForeground(Color.BLACK);
+		lblApellidos.setBounds(779, 70, 225, 39);
 		escritorio.add(lblApellidos);
 		
 		lblTipoEmpleado = new JLabel("Tipo de empleado");
-		lblTipoEmpleado.setForeground(Color.YELLOW);
-		lblTipoEmpleado.setBounds(130, 96, 90, 14);
+		lblTipoEmpleado.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblTipoEmpleado.setForeground(Color.BLACK);
+		lblTipoEmpleado.setBounds(779, 119, 225, 38);
 		escritorio.add(lblTipoEmpleado);
 		
 		lblCodigo_2 = new JLabel("C\u00F3digo");
+		lblCodigo_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblCodigo_2.setForeground(Color.RED);
-		lblCodigo_2.setBounds(10, 21, 83, 14);
+		lblCodigo_2.setBounds(546, 5, 83, 26);
 		escritorio.add(lblCodigo_2);
 		
 		lblNombres_1 = new JLabel("Nombres");
+		lblNombres_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNombres_1.setForeground(Color.RED);
-		lblNombres_1.setBounds(10, 46, 83, 14);
+		lblNombres_1.setBounds(546, 45, 83, 14);
 		escritorio.add(lblNombres_1);
 		
 		lblApellidos_1 = new JLabel("Apellidos");
+		lblApellidos_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblApellidos_1.setForeground(Color.RED);
-		lblApellidos_1.setBounds(10, 71, 83, 14);
+		lblApellidos_1.setBounds(546, 82, 83, 14);
 		escritorio.add(lblApellidos_1);
 		
 		lblTipo_2 = new JLabel("Privilegio");
+		lblTipo_2.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblTipo_2.setForeground(Color.RED);
-		lblTipo_2.setBounds(10, 96, 83, 14);
+		lblTipo_2.setBounds(546, 125, 83, 26);
 		escritorio.add(lblTipo_2);
+		
+		lblFondoCine = new JLabel("New label");
+		lblFondoCine.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/img/fondoCinema.png")));
+		lblFondoCine.setBounds(0, 0, 1348, 684);
+		escritorio.add(lblFondoCine);
 		
 		configurarPrivilegios();
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == mntmManualDelUsuario) {
+			actionPerformedMntmManualDelUsuario(e);
+		}
+		if (e.getSource() == mntmAcercaDeAtencin) {
+			actionPerformedMntmAcercaDeAtencin(e);
+		}
 		if (e.getSource() == mntmReporte7) {
 			actionPerformedMntmReporte7(e);
 		}
@@ -293,6 +337,7 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	private JMenuItem mntmReporte5;
 	private JMenuItem mntmReporte6;
 	private JMenuItem mntmReporte7;
+	private JLabel lblFondoCine;
 		
 	// Procesa la pulsación del menú item Salir
 	protected void actionPerformedMntmSalir(ActionEvent e) {
@@ -452,9 +497,9 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	
 	// Centra el internal frame
 	void centrarInternalFrame(JInternalFrame frame) {
-		Dimension desktopSize = this.escritorio.getSize();
+		/*Dimension desktopSize = this.escritorio.getSize();
 		Dimension frameSize = frame.getSize();
-		frame.setLocation((desktopSize.width - frameSize.width)/2, (desktopSize.height- frameSize.height)/2);
+		frame.setLocation((desktopSize.width - frameSize.width)/2, (desktopSize.height- frameSize.height)/2);*/
 	}
 	
 	protected void actionPerformedMntmReporte5(ActionEvent e) {
@@ -488,5 +533,25 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 				
 		// Hace visible el cuadro de diálogo
 		reporte.setVisible(true);
+	}
+	
+	protected void actionPerformedMntmAcercaDeAtencin(ActionEvent e) {
+		// Declara y crea el cuadro de diálogo
+		DialogoAcercaDe reporte = new DialogoAcercaDe();
+		
+						
+		// Centra el cuadro de diálogo
+		reporte.setLocationRelativeTo(this);
+				
+		// Hace visible el cuadro de diálogo
+		reporte.setVisible(true);
+	}
+	
+	protected void actionPerformedMntmManualDelUsuario(ActionEvent e) {
+		try {
+		    Desktop.getDesktop().browse(new URL("https://drive.google.com/file/d/0B5PJu2VRH1WzcHlIRVJqa21sY2s/view?usp=sharing").toURI());
+		} catch (Exception ex) {
+			System.err.println(ex.getMessage());
+		}
 	}
 }

@@ -29,6 +29,7 @@ import libreria.LibreriaFechas;
 
 import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.ImageIcon;
 public class DlgMantenimientoCine extends JInternalFrame implements ActionListener {
 	/**
 	 * 
@@ -92,7 +93,7 @@ public class DlgMantenimientoCine extends JInternalFrame implements ActionListen
 		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
-		setResizable(false);
+		setResizable(true);
 		setTitle("Mantenimiento | Cine");
 		setBounds(100, 100, 832, 618);
 		getContentPane().setLayout(null);
@@ -176,35 +177,41 @@ public class DlgMantenimientoCine extends JInternalFrame implements ActionListen
 		scrollPane.setViewportView(tblTabla);
 		
 		btnIngresar = new JButton("Ingresar");
+		btnIngresar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnIngresar.png")));
 		btnIngresar.addActionListener(this);
-		btnIngresar.setBounds(677, 55, 120, 23);
+		btnIngresar.setBounds(533, 54, 120, 36);
 		getContentPane().add(btnIngresar);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnModificar.png")));
 		btnModificar.addActionListener(this);
-		btnModificar.setBounds(677, 105, 120, 23);
+		btnModificar.setBounds(533, 101, 120, 36);
 		getContentPane().add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnEliminar.png")));
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(677, 130, 120, 23);
+		btnEliminar.setBounds(663, 101, 120, 36);
 		getContentPane().add(btnEliminar);
 		
 		btnConsultar = new JButton("Consultar");
+		btnConsultar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/itemConsultarPapel.png")));
 		btnConsultar.addActionListener(this);
-		btnConsultar.setBounds(677, 80, 120, 23);
+		btnConsultar.setBounds(663, 55, 120, 35);
 		getContentPane().add(btnConsultar);
 		
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnAceptar.png")));
 		btnAceptar.setEnabled(false);
 		btnAceptar.addActionListener(this);
-		btnAceptar.setBounds(677, 164, 120, 23);
+		btnAceptar.setBounds(533, 151, 120, 36);
 		getContentPane().add(btnAceptar);
 		
 		btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnVolver.png")));
 		btnVolver.setEnabled(false);
 		btnVolver.addActionListener(this);
-		btnVolver.setBounds(677, 191, 120, 23);
+		btnVolver.setBounds(663, 151, 120, 36);
 		getContentPane().add(btnVolver);
 		
 		modelo = new DefaultTableModel();
@@ -218,8 +225,9 @@ public class DlgMantenimientoCine extends JInternalFrame implements ActionListen
 		tblTabla.setModel(modelo);
 		
 		btnCerrar = new JButton("Cerrar");
+		btnCerrar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnCancelar.png")));
 		btnCerrar.addActionListener(this);
-		btnCerrar.setBounds(708, 556, 89, 23);
+		btnCerrar.setBounds(663, 210, 120, 38);
 		getContentPane().add(btnCerrar);
 		
 		lblDistrito = new JLabel("Distrito");
@@ -238,8 +246,9 @@ public class DlgMantenimientoCine extends JInternalFrame implements ActionListen
 		getContentPane().add(lblFechaInicio);
 		
 		btnGrabar = new JButton("Grabar");
+		btnGrabar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnGrabar.png")));
 		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(609, 556, 89, 23);
+		btnGrabar.setBounds(533, 210, 120, 38);
 		getContentPane().add(btnGrabar);
 		
 		txtFechaInicio = new JDateChooser();

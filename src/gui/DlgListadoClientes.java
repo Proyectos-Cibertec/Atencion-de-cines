@@ -21,6 +21,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import javax.swing.UIManager;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class DlgListadoClientes extends JDialog implements ActionListener, MouseListener, KeyListener {
 
@@ -79,14 +80,16 @@ public class DlgListadoClientes extends JDialog implements ActionListener, Mouse
 		panelListado.add(txtClaveBusqueda);
 		txtClaveBusqueda.setColumns(10);
 		
-		btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(DlgListadoClientes.class.getResource("/img/btnBuscar.png")));
 		btnBuscar.addActionListener(this);
-		btnBuscar.setBounds(546, 25, 89, 23);
+		btnBuscar.setBounds(546, 11, 89, 37);
 		panelListado.add(btnBuscar);
 		
-		btnSalir = new JButton("Salir");
+		btnSalir = new JButton("");
+		btnSalir.setIcon(new ImageIcon(DlgListadoClientes.class.getResource("/img/btnSalir2.png")));
 		btnSalir.addActionListener(this);
-		btnSalir.setBounds(645, 25, 89, 23);
+		btnSalir.setBounds(645, 11, 89, 37);
 		panelListado.add(btnSalir);
 		
 		scrollPane = new JScrollPane();

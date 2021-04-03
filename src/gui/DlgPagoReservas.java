@@ -45,6 +45,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
+import javax.swing.ImageIcon;
 
 public class DlgPagoReservas extends JInternalFrame implements ActionListener, MouseListener, KeyListener, ItemListener {
 
@@ -255,12 +256,14 @@ public class DlgPagoReservas extends JInternalFrame implements ActionListener, M
 		cboEstadoReserva.setModel(new DefaultComboBoxModel<String>(new String[] {"Reservada", "Reserva usada", "Reserva cancelada", "Reserva caducada"}));
 		
 		btnPagar = new JButton("Pagar");
-		btnPagar.setBounds(47, 83, 89, 23);
+		btnPagar.setIcon(new ImageIcon(DlgPagoReservas.class.getResource("/img/btnPagar.png")));
+		btnPagar.setBounds(31, 65, 120, 41);
 		panel.add(btnPagar);
 		btnPagar.setEnabled(false);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(219, 83, 89, 23);
+		btnCancelar.setIcon(new ImageIcon(DlgPagoReservas.class.getResource("/img/btnCancelar.png")));
+		btnCancelar.setBounds(210, 65, 120, 41);
 		panel.add(btnCancelar);
 		btnCancelar.setEnabled(false);
 		btnCancelar.addActionListener(this);
@@ -282,20 +285,23 @@ public class DlgPagoReservas extends JInternalFrame implements ActionListener, M
 		panelListado.add(txtClaveBusquedaCodigoReserva);
 		txtClaveBusquedaCodigoReserva.setColumns(10);
 		
-		btnBuscar = new JButton("Buscar");
+		btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(DlgPagoReservas.class.getResource("/img/btnBuscar.png")));
 		btnBuscar.addActionListener(this);
-		btnBuscar.setBounds(310, 25, 89, 23);
+		btnBuscar.setBounds(314, 11, 95, 44);
 		panelListado.add(btnBuscar);
 		
-		btnEliminar = new JButton("Eliminar");
+		btnEliminar = new JButton("");
+		btnEliminar.setIcon(new ImageIcon(DlgPagoReservas.class.getResource("/img/btnEliminar.png")));
 		btnEliminar.setEnabled(false);
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(419, 25, 89, 23);
+		btnEliminar.setBounds(419, 11, 89, 44);
 		panelListado.add(btnEliminar);
 		
-		btnSalir = new JButton("Salir");
+		btnSalir = new JButton("");
+		btnSalir.setIcon(new ImageIcon(DlgPagoReservas.class.getResource("/img/btnSalir.png")));
 		btnSalir.addActionListener(this);
-		btnSalir.setBounds(617, 25, 89, 23);
+		btnSalir.setBounds(617, 11, 89, 44);
 		panelListado.add(btnSalir);
 		
 		scrollPane = new JScrollPane();
@@ -319,8 +325,9 @@ public class DlgPagoReservas extends JInternalFrame implements ActionListener, M
 		
 		tblTabla.setModel(modelo);
 		
-		btnGrabar = new JButton("Grabar");
-		btnGrabar.setBounds(518, 25, 89, 23);
+		btnGrabar = new JButton("");
+		btnSalir.setIcon(new ImageIcon(DlgPagoReservas.class.getResource("/img/btnSalir.png")));
+		btnGrabar.setBounds(518, 11, 89, 44);
 		panelListado.add(btnGrabar);
 		btnGrabar.addActionListener(this);
 		

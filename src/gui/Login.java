@@ -74,7 +74,7 @@ public class Login extends JFrame implements ActionListener {
 		setTitle("Ingreso al Sistema");
 		setBounds(100, 100, 547, 336);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 215, 0));
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -144,6 +144,11 @@ public class Login extends JFrame implements ActionListener {
 		pbBarraProgreso.setVisible(false);
 		pbBarraProgreso.setBounds(41, 298, 450, 27);
 		contentPane.add(pbBarraProgreso);
+		
+		lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(Login.class.getResource("/img/loginCine.jpg")));
+		lblNewLabel_1.setBounds(0, 11, 547, 325);
+		contentPane.add(lblNewLabel_1);
 		txtPassword.addActionListener(this);
 		
 		setLocationRelativeTo(null); // Centra la ventana
@@ -168,6 +173,7 @@ public class Login extends JFrame implements ActionListener {
 	// VARIABLES GLOBALES
 	ArregloEmpleados arregloEmpleados = new ArregloEmpleados("empleados.txt");
 	Empleado empleado = null;
+	private JLabel lblNewLabel_1;
 	
 	// Procesa la pulsación del botón Iniciar Sesión
 	protected void actionPerformedBtnIniciarSecion(ActionEvent e) {

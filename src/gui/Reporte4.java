@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -126,6 +127,10 @@ public class Reporte4 extends JDialog implements ActionListener, PropertyChangeL
 				"archivo de películas, reservas, detalleReservas yfunciones");
 			dispose();
 		}
+		
+		btnSalir.setIcon(new ImageIcon(Reporte1.class.getResource("/img/btnSalir2.png")));
+		btnActualizar.setIcon(new ImageIcon(Reporte1.class.getResource("/img/btnActualizar.png")));
+
 	}
 
 	public void actionPerformed(ActionEvent e) {

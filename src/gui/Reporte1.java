@@ -25,6 +25,7 @@ import clases.Reserva;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class Reporte1 extends JDialog implements ActionListener, PropertyChangeListener {
 
@@ -76,9 +77,11 @@ public class Reporte1 extends JDialog implements ActionListener, PropertyChangeL
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnSalir = new JButton("Salir");
+				btnSalir.setIcon(new ImageIcon(Reporte1.class.getResource("/img/btnSalir2.png")));
 				btnSalir.addActionListener(this);
 				
 				btnActualizar = new JButton("Actualizar");
+				btnActualizar.setIcon(new ImageIcon(Reporte1.class.getResource("/img/btnActualizar.png")));
 				buttonPane.add(btnActualizar);
 				btnActualizar.addActionListener(this);
 				btnSalir.setActionCommand("OK");

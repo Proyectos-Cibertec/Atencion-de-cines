@@ -145,7 +145,8 @@ public class DlgSeleccionButacas extends JDialog implements MouseListener, Actio
 		tc.setCellEditor(tce);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(20, 598, 89, 23);
+		btnAceptar.setIcon(new ImageIcon(DlgSeleccionButacas.class.getResource("/img/btnAceptar.png")));
+		btnAceptar.setBounds(20, 598, 128, 32);
 		panelSeleccionarButacas.add(btnAceptar);
 		
 		lblTotals = new JLabel("Total (S/.) :");
@@ -159,8 +160,9 @@ public class DlgSeleccionButacas extends JDialog implements MouseListener, Actio
 		lblCostoTotal.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblCostoTotal.setFont(new Font("Tahoma", Font.BOLD, 16));
 		
-		btnActualizar = new JButton("Actualizar");
-		btnActualizar.setBounds(485, 598, 89, 23);
+		btnActualizar = new JButton("");
+		btnActualizar.setIcon(new ImageIcon(DlgSeleccionButacas.class.getResource("/img/btnActualizar.png")));
+		btnActualizar.setBounds(485, 598, 89, 32);
 		panelSeleccionarButacas.add(btnActualizar);
 		
 		

@@ -37,6 +37,7 @@ import javax.swing.JLabel;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 
 public class ReservasxFechayEmpleado_Reporte3 extends JDialog implements ActionListener, PropertyChangeListener, ItemListener {
 
@@ -193,6 +194,7 @@ public class ReservasxFechayEmpleado_Reporte3 extends JDialog implements ActionL
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnSalir = new JButton("Salir");
+				btnSalir.setIcon(new ImageIcon(ReservasxFechayEmpleado_Reporte3.class.getResource("/img/btnSalir2.png")));
 				btnSalir.addActionListener(this);
 				btnSalir.setActionCommand("OK");
 				buttonPane.add(btnSalir);

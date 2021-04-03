@@ -25,6 +25,7 @@ import libreria.GeneradorClave;
 import libreria.LibreriaFechas;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import com.toedter.calendar.JDateChooser;
 public class DlgMantenimientoCliente extends JInternalFrame implements ActionListener {
@@ -90,7 +91,7 @@ public class DlgMantenimientoCliente extends JInternalFrame implements ActionLis
 		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
-		setResizable(false);
+		setResizable(true);
 		setTitle("Mantenimiento | Cliente");
 		setBounds(100, 100, 1033, 743);
 		getContentPane().setLayout(null);
@@ -176,34 +177,34 @@ public class DlgMantenimientoCliente extends JInternalFrame implements ActionLis
 		
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(this);
-		btnIngresar.setBounds(677, 55, 120, 23);
+		btnIngresar.setBounds(531, 58, 120, 43);
 		getContentPane().add(btnIngresar);
 		
 		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(this);
-		btnModificar.setBounds(677, 105, 120, 23);
+		btnModificar.setBounds(531, 108, 120, 43);
 		getContentPane().add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(677, 130, 120, 23);
+		btnEliminar.setBounds(661, 108, 120, 43);
 		getContentPane().add(btnEliminar);
 		
 		btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(this);
-		btnConsultar.setBounds(677, 80, 120, 23);
+		btnConsultar.setBounds(661, 58, 120, 43);
 		getContentPane().add(btnConsultar);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setEnabled(false);
 		btnAceptar.addActionListener(this);
-		btnAceptar.setBounds(677, 222, 120, 23);
+		btnAceptar.setBounds(661, 183, 136, 46);
 		getContentPane().add(btnAceptar);
 		
 		btnVolver = new JButton("Volver");
 		btnVolver.setEnabled(false);
 		btnVolver.addActionListener(this);
-		btnVolver.setBounds(677, 249, 120, 23);
+		btnVolver.setBounds(661, 240, 136, 43);
 		getContentPane().add(btnVolver);
 		
 		modelo = new DefaultTableModel();
@@ -245,7 +246,7 @@ public class DlgMantenimientoCliente extends JInternalFrame implements ActionLis
 		
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(this);
-		btnCerrar.setBounds(906, 681, 89, 23);
+		btnCerrar.setBounds(691, 315, 106, 47);
 		getContentPane().add(btnCerrar);
 		
 		lblDireccion = new JLabel("Direcci\u00F3n");
@@ -291,7 +292,7 @@ public class DlgMantenimientoCliente extends JInternalFrame implements ActionLis
 		
 		btnGrabar = new JButton("Grabar");
 		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(807, 681, 89, 23);
+		btnGrabar.setBounds(561, 315, 120, 47);
 		getContentPane().add(btnGrabar);
 		
 		txtFechaNacimiento = new JDateChooser();
@@ -321,6 +322,18 @@ public class DlgMantenimientoCliente extends JInternalFrame implements ActionLis
 		btnGenerar.addActionListener(this);
 		btnGenerar.setBounds(359, 311, 89, 23);
 		getContentPane().add(btnGenerar);
+		
+		btnIngresar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnIngresar.png")));
+		btnModificar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnModificar.png")));
+
+		btnEliminar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnEliminar.png")));
+		btnConsultar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/itemConsultarPapel.png")));
+		btnAceptar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnAceptar.png")));
+		btnVolver.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnVolver.png")));
+		btnCerrar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnCancelar.png")));
+
+		btnGrabar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnGrabar.png")));
+
 		
 		listar();
 	}

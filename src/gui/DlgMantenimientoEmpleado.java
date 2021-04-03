@@ -25,6 +25,7 @@ import libreria.LibreriaFechas;
 import libreria.GeneradorClave;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JPasswordField;
 import com.toedter.calendar.JDateChooser;
 public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionListener {
@@ -90,9 +91,9 @@ public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionLi
 		setMaximizable(true);
 		setIconifiable(true);
 		setClosable(true);
-		setResizable(false);
+		setResizable(true);
 		setTitle("Mantenimiento | Empleado");
-		setBounds(100, 100, 1033, 788);
+		setBounds(100, 100, 1033, 792);
 		getContentPane().setLayout(null);
 		
 		lblMensaje = new JLabel("Seleccione una acci\u00F3n");
@@ -166,7 +167,7 @@ public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionLi
 		getContentPane().add(btnBuscar);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(26, 418, 969, 297);
+		scrollPane.setBounds(26, 418, 969, 256);
 		getContentPane().add(scrollPane);
 		
 		tblTabla = new JTable();
@@ -176,34 +177,34 @@ public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionLi
 		
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(this);
-		btnIngresar.setBounds(677, 55, 120, 23);
+		btnIngresar.setBounds(515, 54, 120, 47);
 		getContentPane().add(btnIngresar);
 		
 		btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(this);
-		btnModificar.setBounds(677, 105, 120, 23);
+		btnModificar.setBounds(515, 108, 120, 43);
 		getContentPane().add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.addActionListener(this);
-		btnEliminar.setBounds(677, 130, 120, 23);
+		btnEliminar.setBounds(645, 108, 120, 43);
 		getContentPane().add(btnEliminar);
 		
 		btnConsultar = new JButton("Consultar");
 		btnConsultar.addActionListener(this);
-		btnConsultar.setBounds(677, 80, 120, 23);
+		btnConsultar.setBounds(651, 55, 120, 46);
 		getContentPane().add(btnConsultar);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setEnabled(false);
 		btnAceptar.addActionListener(this);
-		btnAceptar.setBounds(677, 222, 120, 23);
+		btnAceptar.setBounds(677, 202, 120, 43);
 		getContentPane().add(btnAceptar);
 		
 		btnVolver = new JButton("Volver");
 		btnVolver.setEnabled(false);
 		btnVolver.addActionListener(this);
-		btnVolver.setBounds(677, 249, 120, 23);
+		btnVolver.setBounds(677, 249, 120, 47);
 		getContentPane().add(btnVolver);
 		
 		modelo = new DefaultTableModel();
@@ -246,7 +247,7 @@ public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionLi
 		
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(this);
-		btnCerrar.setBounds(906, 726, 89, 23);
+		btnCerrar.setBounds(651, 361, 120, 46);
 		getContentPane().add(btnCerrar);
 		
 		lblDireccion = new JLabel("Direcci\u00F3n");
@@ -292,7 +293,7 @@ public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionLi
 		
 		btnGrabar = new JButton("Grabar");
 		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(807, 726, 89, 23);
+		btnGrabar.setBounds(515, 361, 120, 46);
 		getContentPane().add(btnGrabar);
 		
 		txtFechaNacimiento = new JDateChooser();
@@ -332,6 +333,19 @@ public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionLi
 		cboTipo.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Supervisor", "Cajero"}));
 		cboTipo.setBounds(158, 318, 133, 20);
 		getContentPane().add(cboTipo);
+		
+		
+		btnIngresar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnIngresar.png")));
+		btnModificar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnModificar.png")));
+
+		btnEliminar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnEliminar.png")));
+		btnConsultar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/itemConsultarPapel.png")));
+		btnAceptar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnAceptar.png")));
+		btnVolver.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnVolver.png")));
+		btnCerrar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnCancelar.png")));
+
+		btnGrabar.setIcon(new ImageIcon(DlgMantenimientoCine.class.getResource("/img/btnGrabar.png")));
+
 		
 		listar();
 	}

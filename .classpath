@@ -2,8 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/Luis Alberto/Desktop/CINE - PROYECTO FINAL DE ALGORITMOS - FINAL/PROYECTO/Sistema de Atención de Cines/librerias_externas/DateChooser.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luis Alberto/Desktop/CINE - PROYECTO FINAL DE ALGORITMOS - FINAL/PROYECTO/Sistema de Atención de Cines/librerias_externas/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Luis Alberto/Desktop/CINE - PROYECTO FINAL DE ALGORITMOS - FINAL/PROYECTO/Sistema de Atención de Cines/librerias_externas/joda-time-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/DateChooser.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/edisoncorSX.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/jcMousePanel.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/joda-time-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/junit-4.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/EduardoAlejandro/Desktop/PROYECTO FINAL DE ALGORITMOS/CODIGO FUENTE/Sistema de Atención de Cines/librerias_externas/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -32,6 +32,7 @@ import java.beans.PropertyChangeEvent;
 import java.awt.Font;
 import javax.swing.UIManager;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class ReservasxFecha_Reporte2 extends JDialog implements ActionListener, PropertyChangeListener {
 
@@ -96,8 +97,9 @@ public class ReservasxFecha_Reporte2 extends JDialog implements ActionListener, 
 		panelFecha.add(txtFechaFin);
 		
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(ReservasxFecha_Reporte2.class.getResource("/img/btnActualizar.png")));
 		btnActualizar.addActionListener(this);
-		btnActualizar.setBounds(375, 33, 125, 23);
+		btnActualizar.setBounds(400, 33, 125, 44);
 		panelFecha.add(btnActualizar);
 		
 		scrollPane = new JScrollPane();
@@ -113,6 +115,7 @@ public class ReservasxFecha_Reporte2 extends JDialog implements ActionListener, 
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnSalir = new JButton("Salir");
+				btnSalir.setIcon(new ImageIcon(ReservasxFecha_Reporte2.class.getResource("/img/btnSalir2.png")));
 				btnSalir.addActionListener(this);
 				btnSalir.setActionCommand("OK");
 				buttonPane.add(btnSalir);
