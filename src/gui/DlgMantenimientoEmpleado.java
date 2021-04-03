@@ -235,9 +235,17 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		btnCerrar.setBounds(708, 548, 89, 23);
 		getContentPane().add(btnCerrar);
 		
+		btnGrabar = new JButton("Grabar");
+		btnGrabar.addActionListener(this);
+		btnGrabar.setBounds(609, 548, 89, 23);
+		getContentPane().add(btnGrabar);
+		
 		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnGrabar) {
+			actionPerformedBtnGrabar(e);
+		}
 		if (e.getSource() == txtContraseña) {
 			actionPerformedTxtContraseña(e);
 		}
@@ -283,12 +291,13 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	}
 	
 	// Declaración Global
-	ArregloEmpleados arregloEmpleados = new ArregloEmpleados();
+	ArregloEmpleados arregloEmpleados = new ArregloEmpleados("empleados.txt");
 	private JLabel lblUsuario;
 	private JLabel lblContrasea;
 	private JTextField txtUsuario;
 	private JPasswordField txtContraseña;
 	private JButton btnCerrar;
+	private JButton btnGrabar;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -579,6 +588,18 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		JOptionPane.showMessageDialog(this, cadena);
 	}
 	
+	// Método sobrecargado que pide una confirmación
+	int confirmar(String mensaje, String tituloMensaje) {
+		return JOptionPane.showConfirmDialog(this, mensaje,
+				tituloMensaje, JOptionPane.YES_NO_OPTION);
+	}
+	
+	// Método sobrecargado que pide una confirmación
+	int confirmar(String mensaje) {
+		return JOptionPane.showConfirmDialog(this, mensaje,
+				"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
+	}
+	
 	// Métodos que retornan valor sin parámetros
 	int leerCodigo() {
 		return Integer.parseInt(txtCodigo.getText().trim());
@@ -634,5 +655,22 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	
 	protected void actionPerformedTxtContraseña(ActionEvent e) {
 		btnAceptar.requestFocus();
+	}
+	
+	// Actualiza el archivo
+	protected void actionPerformedBtnGrabar(ActionEvent e) {
+		if (arregloEmpleados.existeArchivo()) {
+			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloEmpleados.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				arregloEmpleados.grabarEmpleados();
+				mensaje("\"" + arregloEmpleados.getArchivo() + "\" ha sido actualizado");
+			} else {
+				mensaje("No se actualizó \"" + arregloEmpleados.getArchivo() + "\"");
+			}
+		} else {
+			// Si no existe el archivo es creado
+			arregloEmpleados.grabarEmpleados();
+			mensaje("\"" + arregloEmpleados.getArchivo() + "\" ha sido creado");
+		}
 	}
 }

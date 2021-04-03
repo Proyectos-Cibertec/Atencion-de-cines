@@ -5,14 +5,17 @@ public class Funcion {
 	private int codigo;
 	private int codigoCine;
 	private int codigoSala;
+	private int codigoPelicula;
 	private String fechaFuncion;
 	private String horaFuncion;
 	
-	// Constructor con 5 argumentos
-	public Funcion(int codigo, int codigoCine, int codigoSala, String fechaFuncion, String horaFuncion) {
+	// Constructor con 6 argumentos
+	public Funcion(int codigo, int codigoCine, int codigoSala, int codigoPelicula, String fechaFuncion,
+			String horaFuncion) {
 		this.codigo = codigo;
 		this.codigoCine = codigoCine;
 		this.codigoSala = codigoSala;
+		this.codigoPelicula = codigoPelicula;
 		this.fechaFuncion = fechaFuncion;
 		this.horaFuncion = horaFuncion;
 	}
@@ -20,6 +23,14 @@ public class Funcion {
 	// Métodos de acceso público get y set
 	public int getCodigo() {
 		return codigo;
+	}
+
+	public int getCodigoPelicula() {
+		return codigoPelicula;
+	}
+
+	public void setCodigoPelicula(int codigoPelicula) {
+		this.codigoPelicula = codigoPelicula;
 	}
 
 	public void setCodigo(int codigo) {

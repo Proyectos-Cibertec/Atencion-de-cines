@@ -4,7 +4,7 @@ public class DetalleReserva {
 	// Atributos privados
 	private int codigoButaca;
 	private int codigoReserva;
-	private int tipoEntrada;
+	private int tipoEntrada; // 0 = General | 1 = Menores de 11 años | 2 = Mayores de 60 años
 	private int cantidadEntradas;
 	private double precioEntrada;
 	

@@ -94,12 +94,15 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		mnMantenimiento.add(mntmCines);
 		
 		mntmSalas = new JMenuItem("Salas");
+		mntmSalas.addActionListener(this);
 		mnMantenimiento.add(mntmSalas);
 		
 		mntmPelculas = new JMenuItem("Pel\u00EDculas");
+		mntmPelculas.addActionListener(this);
 		mnMantenimiento.add(mntmPelculas);
 		
 		mntmFunciones = new JMenuItem("Funciones");
+		mntmFunciones.addActionListener(this);
 		mnMantenimiento.add(mntmFunciones);
 		
 		mnReserva = new JMenu("Reserva");
@@ -126,6 +129,15 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == mntmFunciones) {
+			actionPerformedMntmFunciones(e);
+		}
+		if (e.getSource() == mntmPelculas) {
+			actionPerformedMntmPelculas(e);
+		}
+		if (e.getSource() == mntmSalas) {
+			actionPerformedMntmSalas(e);
+		}
 		if (e.getSource() == mntmCines) {
 			actionPerformedMntmCines(e);
 		}
@@ -167,5 +179,23 @@ public class MenuPrincipal extends JFrame implements ActionListener {
 		DlgMantenimientoCine dmc = new DlgMantenimientoCine();
 		dmc.setLocationRelativeTo(this);
 		dmc.setVisible(true);
+	}
+	
+	protected void actionPerformedMntmSalas(ActionEvent e) {
+		DlgMantenimientoSala dms = new DlgMantenimientoSala();
+		dms.setLocationRelativeTo(this);
+		dms.setVisible(true);
+	}
+	
+	protected void actionPerformedMntmPelculas(ActionEvent e) {
+		DlgMantenimientoPelicula dmp = new DlgMantenimientoPelicula();
+		dmp.setLocationRelativeTo(this);
+		dmp.setVisible(true);
+	}
+	
+	protected void actionPerformedMntmFunciones(ActionEvent e) {
+		DlgMantenimientoFuncion dmf = new DlgMantenimientoFuncion();
+		dmf.setLocationRelativeTo(this);
+		dmf.setVisible(true);
 	}
 }

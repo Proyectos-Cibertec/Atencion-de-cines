@@ -1,0 +1,4 @@
+10001;Avatar;valorAvatar;18/12/2009;0;Ciencia ficción;Estados Unidos;En un futuro indeterminado, el soldado Jake Sully (Sam Worthington), veterano de guerra con importantes problemas físicos, es enviado al planeta Pandora con el objetivo de robar una importante materia prima.;150;0;0;150000.0
+10002;Titánic;Titánic;15/11/1997;1;Romántico;Estados Unidos;Titanic es una película estadounidense dramática-de catástrofe de 1997 dirigida y escrita por James Cameron;195;0;0;2185372.5
+10003;El Señor de los Anillos;The Lord of the Rings;12/10/1978;1;Aventura/Animación;Estados Unidos;Ees una película de animación estadounidense de 1978 dirigida por Ralph Bakshi.;133;1;0;3.047142E7
+10004;Dragon Ball Z;Dragon Ball Z;20/12/1986;1;Comedia/Acción;Japón;Un cruel rey ha decidido esclavizar a todos los habitantes de su reino.;50;0;0;1456100.0

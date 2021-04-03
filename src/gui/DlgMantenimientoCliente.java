@@ -240,9 +240,9 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		btnCerrar.setBounds(907, 637, 89, 23);
 		getContentPane().add(btnCerrar);
 		
-		lblDireccin = new JLabel("Direcci\u00F3n");
-		lblDireccin.setBounds(27, 162, 43, 14);
-		getContentPane().add(lblDireccin);
+		lblDireccion = new JLabel("Direcci\u00F3n");
+		lblDireccion.setBounds(27, 162, 43, 14);
+		getContentPane().add(lblDireccion);
 		
 		txtDireccion = new JTextField();
 		txtDireccion.addActionListener(this);
@@ -262,9 +262,9 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		getContentPane().add(txtFechaNacimiento);
 		txtFechaNacimiento.setColumns(10);
 		
-		lblFechaDeAfiliacin = new JLabel("Fecha de afiliaci\u00F3n");
-		lblFechaDeAfiliacin.setBounds(27, 213, 88, 14);
-		getContentPane().add(lblFechaDeAfiliacin);
+		lblFechaDeAfiliacion = new JLabel("Fecha de afiliaci\u00F3n");
+		lblFechaDeAfiliacion.setBounds(27, 213, 88, 14);
+		getContentPane().add(lblFechaDeAfiliacion);
 		
 		txtFechaAfiliacion = new JTextField();
 		txtFechaAfiliacion.addActionListener(this);
@@ -295,9 +295,17 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		getContentPane().add(txtDni);
 		txtDni.setColumns(10);
 		
+		btnGrabar = new JButton("Grabar");
+		btnGrabar.addActionListener(this);
+		btnGrabar.setBounds(808, 637, 89, 23);
+		getContentPane().add(btnGrabar);
+		
 		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnGrabar) {
+			actionPerformedBtnGrabar(e);
+		}
 		if (e.getSource() == txtDni) {
 			actionPerformedTxtDni(e);
 		}
@@ -358,22 +366,23 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	}
 	
 	// Declaración Global
-	ArregloClientes arregloClientes = new ArregloClientes();
+	ArregloClientes arregloClientes = new ArregloClientes("clientes.txt");
 	private JLabel lblUsuario;
 	private JLabel lblContrasea;
 	private JTextField txtUsuario;
 	private JPasswordField txtContraseña;
 	private JButton btnCerrar;
-	private JLabel lblDireccin;
+	private JLabel lblDireccion;
 	private JTextField txtDireccion;
 	private JLabel lblFechaDeNacimiento;
 	private JTextField txtFechaNacimiento;
-	private JLabel lblFechaDeAfiliacin;
+	private JLabel lblFechaDeAfiliacion;
 	private JTextField txtFechaAfiliacion;
 	private JLabel lblTelfono;
 	private JTextField txtTelefono;
 	private JLabel lblDni;
 	private JTextField txtDni;
+	private JButton btnGrabar;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -677,6 +686,7 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 			mensaje("Ingrese CÓDIGO correcto");
 			txtCodigo.setText("");
 			txtCodigo.requestFocus();
+			e.printStackTrace();
 		}
 	}
 	
@@ -758,6 +768,18 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	// Método que muestra un mensaje
 	void mensaje(String cadena) {
 		JOptionPane.showMessageDialog(this, cadena);
+	}
+	
+	// Método sobrecargado que pide una confirmación
+	int confirmar(String mensaje, String tituloMensaje) {
+		return JOptionPane.showConfirmDialog(this, mensaje,
+				tituloMensaje, JOptionPane.YES_NO_OPTION);
+	}
+	
+	// Método sobrecargado que pide una confirmación
+	int confirmar(String mensaje) {
+		return JOptionPane.showConfirmDialog(this, mensaje,
+				"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
 	}
 	
 	// Métodos que retornan valor sin parámetros
@@ -855,5 +877,22 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	
 	protected void actionPerformedTxtDni(ActionEvent e) {
 		txtUsuario.requestFocus();
+	}
+	
+	// Actualiza el archivo
+	protected void actionPerformedBtnGrabar(ActionEvent e) {
+		if (arregloClientes.existeArchivo()) {
+			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloClientes.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				arregloClientes.grabarClientes();
+				mensaje("\"" + arregloClientes.getArchivo() + "\" ha sido actualizado");
+			} else {
+				mensaje("No se actualizó \"" + arregloClientes.getArchivo() + "\"");
+			}
+		} else {
+			// Si no existe el archivo es creado
+			arregloClientes.grabarClientes();
+			mensaje("\"" + arregloClientes.getArchivo() + "\" ha sido creado");
+		}
 	}
 }

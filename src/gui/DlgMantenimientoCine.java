@@ -18,8 +18,12 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
+import arreglos.ArregloButacas;
 import arreglos.ArregloCines;
+import arreglos.ArregloSalas;
+import clases.Butaca;
 import clases.Cine;
+import clases.Sala;
 
 import javax.swing.DefaultComboBoxModel;
 public class DlgMantenimientoCine extends JDialog implements ActionListener {
@@ -28,7 +32,7 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblMensaje;
-	private JLabel lblCdigo;
+	private JLabel lbloCdigo;
 	private JLabel lblNombres;
 	private JLabel lblDepartamento;
 	private JLabel lblProvincia;
@@ -97,9 +101,9 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		lblMensaje.setBounds(27, 11, 770, 36);
 		getContentPane().add(lblMensaje);
 		
-		lblCdigo = new JLabel("C\u00F3digo");
-		lblCdigo.setBounds(27, 58, 46, 14);
-		getContentPane().add(lblCdigo);
+		lbloCdigo = new JLabel("C\u00F3digo");
+		lbloCdigo.setBounds(27, 58, 46, 14);
+		getContentPane().add(lbloCdigo);
 		
 		lblNombres = new JLabel("Nombres");
 		lblNombres.setBounds(27, 87, 46, 14);
@@ -235,9 +239,17 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		getContentPane().add(txtFechaInicio);
 		txtFechaInicio.setColumns(10);
 		
+		btnGrabar = new JButton("Grabar");
+		btnGrabar.addActionListener(this);
+		btnGrabar.setBounds(609, 556, 89, 23);
+		getContentPane().add(btnGrabar);
+		
 		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnGrabar) {
+			actionPerformedBtnGrabar(e);
+		}
 		if (e.getSource() == txtFechaInicio) {
 			actionPerformedTxtFechaInicio(e);
 		}
@@ -283,12 +295,15 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	}
 	
 	// Declaración Global
-	ArregloCines arregloCines = new ArregloCines();
+	ArregloCines arregloCines = new ArregloCines("cines.txt");
+	ArregloSalas arregloSalas = new ArregloSalas("salas.txt");
+	ArregloButacas arregloButacas = new ArregloButacas("butacas.txt");
 	private JButton btnCerrar;
 	private JLabel lblDistrito;
 	private JTextField txtDistrito;
 	private JLabel lblFechaInicio;
 	private JTextField txtFechaInicio;
+	private JButton btnGrabar;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -520,6 +535,7 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 						"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
 						
 				if (respuesta == JOptionPane.YES_OPTION) {
+					eliminarSalas(cine.getCodigo()); // Se eliminan las salas pertenecientes al cine que se va a eliminar 
 					arregloCines.eliminar(cine);
 					listar();
 					txtCodigo.setText("");
@@ -582,6 +598,18 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		JOptionPane.showMessageDialog(this, cadena);
 	}
 	
+	// Método sobrecargado que pide una confirmación
+	int confirmar(String mensaje, String tituloMensaje) {
+		return JOptionPane.showConfirmDialog(this, mensaje,
+				tituloMensaje, JOptionPane.YES_NO_OPTION);
+	}
+	
+	// Método sobrecargado que pide una confirmación
+	int confirmar(String mensaje) {
+		return JOptionPane.showConfirmDialog(this, mensaje,
+				"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
+	}
+	
 	// Métodos que retornan valor sin parámetros
 	int leerCodigo() {
 		return Integer.parseInt(txtCodigo.getText().trim());
@@ -637,5 +665,52 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	
 	protected void actionPerformedCboTipoCine(ActionEvent e) {
 		btnAceptar.requestFocus();
+	}
+	
+	// Actualiza el archivo
+	protected void actionPerformedBtnGrabar(ActionEvent e) {
+		if (arregloCines.existeArchivo()) {
+			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloCines.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				// Se guardan los cambios en los archivos correspondientes
+				arregloCines.grabarCines();
+				arregloSalas.grabarSalas();
+				arregloButacas.grabarButacas();
+				mensaje("\"" + arregloCines.getArchivo() + "\" ha sido actualizado");
+			} else {
+				mensaje("No se actualizó \"" + arregloCines.getArchivo() + "\"");
+			}
+		} else {
+			// Si no existe el archivo es creado
+			arregloCines.grabarCines();
+			mensaje("\"" + arregloCines.getArchivo() + "\" ha sido creado");
+		}
+	}
+	
+	// Elimina las salas para el cine cuyo código se le pasa como argumento
+	public void eliminarSalas(int codigoCine) {
+		int i = 0;
+		while (i < arregloSalas.tamaño()) {
+			Sala sala = arregloSalas.obtener(i);
+			if (sala.getCodigoCine() == codigoCine) {
+				eliminarButacas(sala.getCodigo()); // Se elimina las butacas de la sala actual
+				arregloSalas.eliminar(sala);
+			} else {
+				i++;
+			}
+		}
+	}
+	
+	// Elimina las butacas para la sala cuyo código se le pasa como argumento
+	public void eliminarButacas(int codigoSala) {
+		int i = 0;
+		while (i < arregloButacas.tamaño()) {
+			Butaca butaca = arregloButacas.obtener(i);
+			if (butaca.getCodigoSala() == codigoSala) {
+				arregloButacas.eliminar(butaca);
+			} else {
+				i++;
+			}
+		}
 	}
 }
