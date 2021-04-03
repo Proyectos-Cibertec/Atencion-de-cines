@@ -1,0 +1,8 @@
+10001;Cines Star;Lima;Lima;SJL;20/10/2003;0
+10002;Cineplanet;Lima;Lima;Miraflores;10/02/2014;1
+10003;Cinemark;Lima;Lima;San Isidro;01/01/2016;1
+10004;UVK;Lima;Lima;Jesús María;01/03/2016;1
+10005;Cinépolis;Lima;Lima;Breña;15/08/2009;0
+10006;Cines Plaza;Lima;Lima;Santa Anita;13/01/2007;0
+10007;Movietime;Lima;Lima;Surco;01/01/2016;0
+10008;LuisMovies;Lima;Lima;Lima;02/12/2016;1

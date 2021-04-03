@@ -1,0 +1,40 @@
+10001;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10002;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10003;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10004;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10005;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10006;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10007;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10008;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10009;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10010;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10011;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10012;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10013;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10014;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10015;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10016;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10017;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10018;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10019;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10020;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10021;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10022;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10023;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10024;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10025;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10026;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10027;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10028;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10029;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10030;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10031;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10032;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10033;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10034;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10035;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
+10036;Bertha;Ortiz;Anguino;Jr Los Pelitres 124;San Juan de Lurigancho;13/07/1990;16/12/2011;0;987545487;46689547;10001BerthaOo;1217OrtizAngui
+10037;Vulcano;Arenas;Rivero;Jr Los Chasquis 1234;Comas;02/06/1988;19/12/2015;0;987545121;57875489;10002VulcanoAo;7449ArenRive
+10038;Alonzo;Bengham;Merino;Carretera Cádiz 20810;La Molina;18/12/1980;14/03/2014;0;987545458;45875412;10003AlonzoBo;3756BengMeri
+10039;Edelberto;Altamirano;Mota;Villalba del Alcor 2012;Independencia;16/12/1987;03/12/2016;3;987874587;46652214;10004EdelbertoAa;5791AltaMota
+10040;Felisardo;Villa;Corona;Mazaricos 15256;La Molina;17/09/1954;03/12/2016;1;9855654578;87548754;10005FelisardoVa;1180VillCoro
