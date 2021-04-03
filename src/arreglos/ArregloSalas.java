@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import clases.Sala;
 
 public class ArregloSalas {
@@ -93,6 +94,17 @@ public class ArregloSalas {
 			return 10001;
 		} else {
 			return obtener(tamaño() - 1).getCodigo() + 1;
+		}
+	}
+	
+	// Elimina todas las salas del cine cuyo código se le pasa como argumento
+	public void eliminarSalasDeCine(int codigoCine) {
+		Iterator<Sala> itrSalas = salas.iterator();
+		while (itrSalas.hasNext()) {
+			Sala sala = itrSalas.next();
+			if (sala.getCodigoCine() == codigoCine) {
+				itrSalas.remove();
+			}
 		}
 	}
 	

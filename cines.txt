@@ -5,3 +5,4 @@
 10005;Cinépolis;Lima;Lima;Breña;15/08/2009;0
 10006;Cines Plaza;Lima;Lima;Santa Anita;13/01/2007;0
 10007;Movietime;Lima;Lima;Surco;01/01/2016;0
+10008;LuisMovies;Lima;Lima;Lima;02/12/2016;1

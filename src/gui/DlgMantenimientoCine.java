@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,13 +21,15 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloButacas;
 import arreglos.ArregloCines;
+import arreglos.ArregloFunciones;
 import arreglos.ArregloSalas;
-import clases.Butaca;
 import clases.Cine;
 import clases.Sala;
+import libreria.LibreriaFechas;
 
 import javax.swing.DefaultComboBoxModel;
-public class DlgMantenimientoCine extends JDialog implements ActionListener {
+import com.toedter.calendar.JDateChooser;
+public class DlgMantenimientoCine extends JInternalFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -86,7 +89,9 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgMantenimientoCine() {
-		setModal(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setClosable(true);
 		setResizable(false);
 		setTitle("Mantenimiento | Cine");
 		setBounds(100, 100, 832, 618);
@@ -232,26 +237,22 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		lblFechaInicio.setBounds(27, 188, 98, 14);
 		getContentPane().add(lblFechaInicio);
 		
-		txtFechaInicio = new JTextField();
-		txtFechaInicio.addActionListener(this);
-		txtFechaInicio.setEditable(false);
-		txtFechaInicio.setBounds(158, 185, 133, 20);
-		getContentPane().add(txtFechaInicio);
-		txtFechaInicio.setColumns(10);
-		
 		btnGrabar = new JButton("Grabar");
 		btnGrabar.addActionListener(this);
 		btnGrabar.setBounds(609, 556, 89, 23);
 		getContentPane().add(btnGrabar);
+		
+		txtFechaInicio = new JDateChooser();
+		txtFechaInicio.setDateFormatString("dd/MM/yyyy");
+		txtFechaInicio.setEnabled(false);
+		txtFechaInicio.setBounds(158, 184, 133, 20);
+		getContentPane().add(txtFechaInicio);
 		
 		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnGrabar) {
 			actionPerformedBtnGrabar(e);
-		}
-		if (e.getSource() == txtFechaInicio) {
-			actionPerformedTxtFechaInicio(e);
 		}
 		if (e.getSource() == txtDistrito) {
 			actionPerformedTxtDistrito(e);
@@ -298,12 +299,16 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	ArregloCines arregloCines = new ArregloCines("cines.txt");
 	ArregloSalas arregloSalas = new ArregloSalas("salas.txt");
 	ArregloButacas arregloButacas = new ArregloButacas("butacas.txt");
+	ArregloFunciones arregloFunciones = new ArregloFunciones("funciones.txt");
+	
+	boolean cambios = false; // Permite saber si se hicieron cambios que necesitan guardarse
+	
 	private JButton btnCerrar;
 	private JLabel lblDistrito;
 	private JTextField txtDistrito;
 	private JLabel lblFechaInicio;
-	private JTextField txtFechaInicio;
 	private JButton btnGrabar;
+	private JDateChooser txtFechaInicio;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -397,44 +402,51 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		int codigo = leerCodigo();
 		String nombre = leerNombre();
 		if (nombre.length() > 0) {
-			String departamento = leerDepartamento();
-			if (departamento.length() > 0) {
-				String provincia = leerProvincia();
-				if (provincia.length() > 0) {
-					String distrito = leerDistrito();
-					if (distrito.length() > 0) {
-						String fechaInicio = leerFechaInicio();
-						if (fechaInicio.length() > 0) {
-							int tipoCine = leerTipoCine();
-							// Datos correctos
-							
-							Cine cine = new Cine(codigo, nombre, departamento, provincia, distrito, fechaInicio, tipoCine);
-							arregloCines.adicionar(cine);
-							listar();
-							txtCodigo.setText("" + arregloCines.codigoCorrelativo());
-							limpiarEntradas();
-							txtNombre.requestFocus();
-							mensaje("Registro exitoso");
-							
+			if (!nombreCineEsRepetido(nombre)) {
+				String departamento = leerDepartamento();
+				if (departamento.length() > 0) {
+					String provincia = leerProvincia();
+					if (provincia.length() > 0) {
+						String distrito = leerDistrito();
+						if (distrito.length() > 0) {
+							String fechaInicio = leerFechaInicio();
+							if (fechaInicio.length() > 0) {
+								int tipoCine = leerTipoCine();
+								// Datos correctos
+								
+								Cine cine = new Cine(codigo, nombre, departamento, provincia, distrito, fechaInicio, tipoCine);
+								arregloCines.adicionar(cine);
+								listar();
+								txtCodigo.setText("" + arregloCines.codigoCorrelativo());
+								limpiarEntradas();
+								txtNombre.requestFocus();
+								mensaje("Registro exitoso");
+								cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+								
+							} else {
+								mensaje("Ingrese Fecha de Inicio correcta");
+								txtFechaInicio.setDate(null);
+								txtFechaInicio.requestFocus();
+							}
 						} else {
-							mensaje("Ingrese Fecha de Inicio correcta");
-							txtFechaInicio.setText("");
-							txtFechaInicio.requestFocus();
+							mensaje("Ingrese Distrito correcto");
+							txtDistrito.setText("");
+							txtDistrito.requestFocus();
 						}
 					} else {
-						mensaje("Ingrese Distrito correcto");
-						txtDistrito.setText("");
-						txtDistrito.requestFocus();
+						mensaje("Ingrese Orovincia correcta");
+						txtProvincia.setText("");
+						txtProvincia.requestFocus();
 					}
 				} else {
-					mensaje("Ingrese Orovincia correcta");
-					txtProvincia.setText("");
-					txtProvincia.requestFocus();
+					mensaje("Ingrese Departamento correcto");
+					txtDepartamento.setText("");
+					txtDepartamento.requestFocus();
 				}
 			} else {
-				mensaje("Ingrese Departamento correcto");
-				txtDepartamento.setText("");
-				txtDepartamento.requestFocus();
+				mensaje("Ya existe un cine con el nombre: " + nombre + ". Ingrese un nombre diferente");
+				txtNombre.setText("");
+				txtNombre.requestFocus();
 			}
 		} else {
 			mensaje("Ingrese Nombre correctos");
@@ -451,7 +463,7 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 				txtDepartamento.setText(cine.getDepartamento());
 				txtProvincia.setText(cine.getProvincia());
 				txtDistrito.setText(cine.getDistrito());
-				txtFechaInicio.setText(cine.getFechaInicio());
+				txtFechaInicio.setDate(LibreriaFechas.stringToDate(cine.getFechaInicio()));
 				cboTipoCine.setSelectedIndex(cine.getTipo());
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -471,49 +483,56 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 			String nombre = leerNombre();
 			
 			if (nombre.length() > 0) {
-				String departamento = leerDepartamento();
-				if (departamento.length() > 0) {
-					String provincia = leerProvincia();
-					if (provincia.length() > 0) {
-						String distrito = leerDistrito();
-						if (distrito.length() > 0) {
-							String fechaInicio = leerFechaInicio();
-							if (fechaInicio.length() > 0) {
-								int tipoCine = leerTipoCine();
-								// Datos correctos
-								int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar los datos del cine seleccionado?",
-										"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
-										
-								if (respuesta == JOptionPane.YES_OPTION) {
-									cine.setNombre(nombre);
-									cine.setDepartamento(departamento);
-									cine.setProvincia(provincia);
-									cine.setDistrito(distrito);
-									cine.setFechaInicio(fechaInicio);
-									cine.setTipo(tipoCine);
-									listar();
-									txtCodigo.requestFocus();								
-									mensaje("Modificación exitosa");
-								}								
+				if (!nombreCineEsRepetido(nombre)) {
+					String departamento = leerDepartamento();
+					if (departamento.length() > 0) {
+						String provincia = leerProvincia();
+						if (provincia.length() > 0) {
+							String distrito = leerDistrito();
+							if (distrito.length() > 0) {
+								String fechaInicio = leerFechaInicio();
+								if (fechaInicio.length() > 0) {
+									int tipoCine = leerTipoCine();
+									// Datos correctos
+									int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar los datos del cine seleccionado?",
+											"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
+											
+									if (respuesta == JOptionPane.YES_OPTION) {
+										cine.setNombre(nombre);
+										cine.setDepartamento(departamento);
+										cine.setProvincia(provincia);
+										cine.setDistrito(distrito);
+										cine.setFechaInicio(fechaInicio);
+										cine.setTipo(tipoCine);
+										listar();
+										txtCodigo.requestFocus();								
+										mensaje("Modificación exitosa");
+										cambios = true; // Variable que permite saber si se realizaron cambios en el Arraylist 
+									}								
+								} else {
+									mensaje("Ingrese Fecha de Inicio correcta");
+									txtFechaInicio.setDate(null);
+									txtFechaInicio.requestFocus();
+								}
 							} else {
-								mensaje("Ingrese Fecha de Inicio correcta");
-								txtFechaInicio.setText("");
-								txtFechaInicio.requestFocus();
+								mensaje("Ingrese Distrito correcto");
+								txtDistrito.setText("");
+								txtDistrito.requestFocus();
 							}
 						} else {
-							mensaje("Ingrese Distrito correcto");
-							txtDistrito.setText("");
-							txtDistrito.requestFocus();
+							mensaje("Ingrese Provincia correcta");
+							txtProvincia.setText("");
+							txtProvincia.requestFocus();
 						}
 					} else {
-						mensaje("Ingrese Orovincia correcta");
-						txtProvincia.setText("");
-						txtProvincia.requestFocus();
+						mensaje("Ingrese Departamento correcto");
+						txtDepartamento.setText("");
+						txtDepartamento.requestFocus();
 					}
 				} else {
-					mensaje("Ingrese Departamento correcto");
-					txtDepartamento.setText("");
-					txtDepartamento.requestFocus();
+					mensaje("Ya existe un cine con el nombre: " + nombre + ". Ingrese un nombre diferente");
+					txtNombre.setText("");
+					txtNombre.requestFocus();
 				}
 			} else {
 				mensaje("Ingrese Nombre correctos");
@@ -535,13 +554,15 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 						"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
 						
 				if (respuesta == JOptionPane.YES_OPTION) {
-					eliminarSalas(cine.getCodigo()); // Se eliminan las salas pertenecientes al cine que se va a eliminar 
+					arregloFunciones.eliminarFuncionesDeCine(cine.getCodigo());
+					eliminarSalas(cine.getCodigo()); // Se eliminan las salas pertenecientes al cine que se va a eliminar
 					arregloCines.eliminar(cine);
 					listar();
 					txtCodigo.setText("");
 					limpiarEntradas();
 					txtCodigo.requestFocus();
 					mensaje("Eliminación exitosa");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el Arraylist
 				}
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -561,7 +582,7 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		txtDepartamento.setText("");
 		txtProvincia.setText("");
 		txtDistrito.setText("");
-		txtFechaInicio.setText("");
+		txtFechaInicio.setDate(LibreriaFechas.fechaActual()); // Por defecto es la fecha actual
 		cboTipoCine.setSelectedIndex(0);
 	}
 	
@@ -571,7 +592,7 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		txtDepartamento.setEditable(valor);
 		txtProvincia.setEditable(valor);
 		txtDistrito.setEditable(valor);
-		txtFechaInicio.setEditable(valor);
+		txtFechaInicio.setEnabled(valor);
 		cboTipoCine.setEnabled(valor);
 	}
 	
@@ -632,7 +653,8 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	}
 	
 	String leerFechaInicio() {
-		return txtFechaInicio.getText().trim();
+		String fechaInicio = LibreriaFechas.dateToString(txtFechaInicio.getDate());
+		return (fechaInicio == null) ? "" : fechaInicio;
 	}
 	
 	int leerTipoCine() {
@@ -640,6 +662,17 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 	}
 	
 	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		if (cambios) {
+			int respuesta = confirmar("¿Desea guardar los cambios realizados en el archivo \"" + arregloCines.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				arregloCines.grabarCines();
+				arregloSalas.grabarSalas();
+				arregloButacas.grabarButacas();
+				arregloFunciones.grabarFunciones();
+				mensaje("\"" + arregloCines.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+			}
+		}
 		dispose();
 	}
 	
@@ -659,10 +692,6 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 		txtFechaInicio.requestFocus();
 	}
 	
-	protected void actionPerformedTxtFechaInicio(ActionEvent e) {
-		cboTipoCine.requestFocus();
-	}
-	
 	protected void actionPerformedCboTipoCine(ActionEvent e) {
 		btnAceptar.requestFocus();
 	}
@@ -676,41 +705,47 @@ public class DlgMantenimientoCine extends JDialog implements ActionListener {
 				arregloCines.grabarCines();
 				arregloSalas.grabarSalas();
 				arregloButacas.grabarButacas();
+				arregloFunciones.grabarFunciones();
 				mensaje("\"" + arregloCines.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
 			} else {
 				mensaje("No se actualizó \"" + arregloCines.getArchivo() + "\"");
 			}
 		} else {
-			// Si no existe el archivo es creado
+			// Si no existe el archivo es creado y se guardan los cambios correspondientes
 			arregloCines.grabarCines();
+			arregloSalas.grabarSalas();
+			arregloButacas.grabarButacas();
+			arregloFunciones.grabarFunciones();
 			mensaje("\"" + arregloCines.getArchivo() + "\" ha sido creado");
 		}
 	}
 	
 	// Elimina las salas para el cine cuyo código se le pasa como argumento
 	public void eliminarSalas(int codigoCine) {
-		int i = 0;
-		while (i < arregloSalas.tamaño()) {
+		
+		// Primero se eliminan las butacas de las salas
+		for (int i = 0; i < arregloSalas.tamaño(); i++) {
 			Sala sala = arregloSalas.obtener(i);
 			if (sala.getCodigoCine() == codigoCine) {
-				eliminarButacas(sala.getCodigo()); // Se elimina las butacas de la sala actual
-				arregloSalas.eliminar(sala);
-			} else {
-				i++;
+				
+				// Se manda a eliminar sus butacas
+				arregloButacas.eliminarButacasDeSala(sala.getCodigo());
 			}
 		}
+		
+		// Segundo, se proceden a eliminar las salas
+		arregloSalas.eliminarSalasDeCine(codigoCine);
 	}
 	
-	// Elimina las butacas para la sala cuyo código se le pasa como argumento
-	public void eliminarButacas(int codigoSala) {
-		int i = 0;
-		while (i < arregloButacas.tamaño()) {
-			Butaca butaca = arregloButacas.obtener(i);
-			if (butaca.getCodigoSala() == codigoSala) {
-				arregloButacas.eliminar(butaca);
-			} else {
-				i++;
+	// Retorna true cuando el nombreCine ya existe en el arraylist de cines
+	public boolean nombreCineEsRepetido(String nombreCine) {
+		for (int i = 0; i < arregloCines.tamaño(); i++) {
+			Cine cine = arregloCines.obtener(i);
+			if (cine.getNombre().equalsIgnoreCase(nombreCine)) {
+				return true;
 			}
 		}
+		return false;
 	}
 }

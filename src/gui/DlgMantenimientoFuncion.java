@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -21,11 +22,15 @@ import arreglos.ArregloCines;
 import arreglos.ArregloFunciones;
 import arreglos.ArregloPeliculas;
 import arreglos.ArregloSalas;
+import clases.Cine;
 import clases.Funcion;
 import clases.Sala;
+import libreria.LibreriaFechas;
+
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
-public class DlgMantenimientoFuncion extends JDialog implements ActionListener, ItemListener {
+import com.toedter.calendar.JDateChooser;
+public class DlgMantenimientoFuncion extends JInternalFrame implements ActionListener, ItemListener {
 	/**
 	 * 
 	 */
@@ -80,7 +85,9 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 	 * Create the dialog.
 	 */
 	public DlgMantenimientoFuncion() {
-		setModal(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setClosable(true);
 		setResizable(false);
 		setTitle("Mantenimiento | Funci\u00F3n");
 		setBounds(100, 100, 832, 618);
@@ -166,7 +173,7 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 		
 		modelo = new DefaultTableModel();
 		modelo.addColumn("Código");
-		modelo.addColumn("Funcion");
+		modelo.addColumn("Cine");
 		modelo.addColumn("Sala");
 		modelo.addColumn("Película");
 		modelo.addColumn("Fecha de la función");
@@ -181,13 +188,6 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 		lblFechaFuncion = new JLabel("Fecha de la funci\u00F3n:");
 		lblFechaFuncion.setBounds(27, 162, 97, 14);
 		getContentPane().add(lblFechaFuncion);
-		
-		txtFechaFuncion = new JTextField();
-		txtFechaFuncion.addActionListener(this);
-		txtFechaFuncion.setEditable(false);
-		txtFechaFuncion.setBounds(158, 159, 133, 20);
-		getContentPane().add(txtFechaFuncion);
-		txtFechaFuncion.setColumns(10);
 		
 		lblHoraFuncion = new JLabel("Hora de la funci\u00F3n");
 		lblHoraFuncion.setBounds(27, 188, 98, 14);
@@ -206,26 +206,68 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 		getContentPane().add(btnGrabar);
 		
 		cboCine = new JComboBox<String>();
+		cboCine.setEnabled(false);
 		cboCine.addActionListener(this);
 		cboCine.addItemListener(this);
 		cboCine.setBounds(158, 84, 230, 20);
 		getContentPane().add(cboCine);
 		
 		cboSala = new JComboBox<String>();
+		cboSala.setEnabled(false);
 		cboSala.addActionListener(this);
 		cboSala.addItemListener(this);
 		cboSala.setBounds(158, 109, 230, 20);
 		getContentPane().add(cboSala);
 		
 		cboPelicula = new JComboBox<String>();
+		cboPelicula.setEnabled(false);
 		cboPelicula.addActionListener(this);
 		cboPelicula.addItemListener(this);
 		cboPelicula.setBounds(158, 134, 230, 20);
 		getContentPane().add(cboPelicula);
 		
-		cargarCinesExistentes(); // Carga dinámicamente las funciones
-		cargarPeliculasExistentes(); // Carga dinámicamente la lista de películas
-		listar();
+		txtFechaFuncion = new JDateChooser();
+		txtFechaFuncion.setEnabled(false);
+		txtFechaFuncion.setDateFormatString("dd/MM/yyyy");
+		txtFechaFuncion.setBounds(158, 159, 133, 20);
+		getContentPane().add(txtFechaFuncion);
+		
+		// Se valida que haya cines existentes que contengan al menos una sala
+		if (arregloCines.tamaño() > 0) {
+			if (arregloSalas.tamaño() > 0) {
+				if (arregloPeliculas.tamaño() > 0) {
+					cargarCinesExistentes(); // Carga dinámicamente los cines existentes que contengan al menos una sala
+					cargarPeliculasExistentes(); // Carga dinámicamente la lista de películas
+					listar();
+				} else {
+					mensaje("Error. No existen películas registradas. No se podrá elegir ninguna " + ""
+							+ "función a menos que alguna película haya sido registrada.");
+					
+					// Se deshabilitan todos los botones excepto el de Cerrar
+					habilitarBotones(false);
+					btnAceptar.setEnabled(false);
+					btnVolver.setEnabled(false);
+					btnGrabar.setEnabled(false);
+				}
+			} else {
+				mensaje("Error. No existe ninguna Sala en ningún cine. No se podrá elegir ninguna " + ""
+						+ "función a menos que algún cine tenga una sala como mínimo");
+				
+				// Se deshabilitan todos los botones excepto el de Cerrar
+				habilitarBotones(false);
+				btnAceptar.setEnabled(false);
+				btnVolver.setEnabled(false);
+				btnGrabar.setEnabled(false);
+			}
+		} else {
+			mensaje("Error. No existe ningún Cine en el archivo. No se podrá elegir ninguna función.");
+			
+			// Se deshabilitan todos los botones excepto el de Cerrar
+			habilitarBotones(false);
+			btnAceptar.setEnabled(false);
+			btnVolver.setEnabled(false);
+			btnGrabar.setEnabled(false);
+		}
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == cboPelicula) {
@@ -242,9 +284,6 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 		}
 		if (e.getSource() == txtHoraFuncion) {
 			actionPerformedTxtFechaInicio(e);
-		}
-		if (e.getSource() == txtFechaFuncion) {
-			actionPerformedTxtDistrito(e);
 		}
 		if (e.getSource() == btnCerrar) {
 			actionPerformedBtnCerrar(e);
@@ -277,16 +316,17 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 	ArregloCines arregloCines = new ArregloCines("cines.txt");
 	ArregloSalas arregloSalas = new ArregloSalas("salas.txt");
 	ArregloPeliculas arregloPeliculas = new ArregloPeliculas("peliculas.txt");
+	boolean cambios = false; // Permite saber si se hicieron cambios que necesitan guardarse
 	
 	private JButton btnCerrar;
 	private JLabel lblFechaFuncion;
-	private JTextField txtFechaFuncion;
 	private JLabel lblHoraFuncion;
 	private JTextField txtHoraFuncion;
 	private JButton btnGrabar;
 	private JComboBox<String> cboCine;
 	private JComboBox<String> cboSala;
 	private JComboBox<String> cboPelicula;
+	private JDateChooser txtFechaFuncion;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -396,6 +436,8 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 					limpiarEntradas();
 					cboCine.requestFocus();
 					mensaje("Registro exitoso");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+					
 				} else {
 					mensaje("Ingrese Hora de la función correcta");
 					txtHoraFuncion.setText("");
@@ -403,13 +445,13 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 				}
 			} else {
 				mensaje("Ingrese Fecha de la función correcta");
-				txtFechaFuncion.setText("");
+				txtFechaFuncion.setDate(null);
 				txtFechaFuncion.requestFocus();
 			}
 		} catch (Exception e) {
-			mensaje("No existen salas en el cine seleccionado. Cambie de cine");
-			txtFechaFuncion.setText("");
-			txtFechaFuncion.requestFocus();
+			mensaje("Aún no se han creado salas en el cine: " + cboCine.getSelectedItem().toString() + ". Elija otro cine");
+			cboCine.setSelectedIndex(0);
+			cboCine.requestFocus();
 		}
 	}
 	
@@ -420,7 +462,7 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 				cboCine.setSelectedItem(arregloCines.buscar(funcion.getCodigoCine()).getNombre());
 				cboSala.setSelectedItem(arregloSalas.buscar(funcion.getCodigoSala()).getNumeroSala());
 				cboPelicula.setSelectedItem(arregloPeliculas.buscar(funcion.getCodigoPelicula()).getTituloDistribucion());
-				txtFechaFuncion.setText(funcion.getFechaFuncion());
+				txtFechaFuncion.setDate(LibreriaFechas.stringToDate(funcion.getFechaFuncion()));
 				txtHoraFuncion.setText(funcion.getHoraFuncion());
 				
 			} else {
@@ -458,15 +500,17 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 						listar();
 						txtCodigo.requestFocus();								
 						mensaje("Modificación exitosa");
+						cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+						
 					}
 				} else {
-					mensaje("Ingrese Hora de la función correcta");
+					mensaje("Ingrese Hora correcta de la función ");
 					txtHoraFuncion.setText("");
 					txtHoraFuncion.requestFocus();
 				}
 			} else {
-				mensaje("Ingrese Fecha de la función correcta");
-				txtFechaFuncion.setText("");
+				mensaje("Ingrese Fecha correcta para la Función");
+				txtFechaFuncion.setDate(null);
 				txtFechaFuncion.requestFocus();
 			}
 		} catch (Exception e) {
@@ -490,6 +534,8 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 					limpiarEntradas();
 					txtCodigo.requestFocus();
 					mensaje("Eliminación exitosa");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+					
 				}
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -505,10 +551,22 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 	
 	// Limpia los cuadros de texto
 	void limpiarEntradas() {
-		cboCine.setSelectedIndex(0);
-		cboSala.setSelectedIndex(0);
+		
+		/* NOTA: De la lista de cines del combobox, puede darse el caso de que algunos cines no tengan salas.
+		 * Cada vez que se realice la limpieza de los inputs y además el reseteo de los JCombobox,
+		 * por defecto, no se debe seleccionar el Cine de índice 0 (cómo se haría normalmente en otros casos) ya que
+		 * si el primer Cine del Jcombobox no tiene Salas, ocurriría un error con la siguiente línea de código:
+		 * 			cboSala.setSelectedIndex(0);
+		 * debido a que se estaría suponiendo que el primer cine del JCombobox tiene al menos una sala.
+		 * Para evitar dicho error, hay que determinar mediante un algoritmo cuál es el índice del primer cine del Jcombobox
+		 * que cumpla con la condición de que debe tener al menos una sala.
+		 */
+		
+		//int indice = determinarPrimerCineConAlMenosUnaSala();
+		cboCine.setSelectedIndex(0); // Se selecciona el primer Cine de la lista que tiene al menos una sala
+		cboSala.setSelectedIndex(0); // Se selecciona por defecto la primera sala de la lista de salas
 		cboPelicula.setSelectedIndex(0);
-		txtFechaFuncion.setText("");
+		txtFechaFuncion.setDate(LibreriaFechas.fechaActual()); // Por defecto es la fecha actual
 		txtHoraFuncion.setText("");
 	}
 	
@@ -517,7 +575,7 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 		cboCine.setEnabled(valor);
 		cboSala.setEnabled(valor);
 		cboPelicula.setEnabled(valor);
-		txtFechaFuncion.setEditable(valor);
+		txtFechaFuncion.setEnabled(valor);
 		txtHoraFuncion.setEditable(valor);
 	}
 	
@@ -576,7 +634,8 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 	}
 	
 	String leerFechaFuncion() {
-		return txtFechaFuncion.getText().trim();
+		String fechaFuncion = LibreriaFechas.dateToString(txtFechaFuncion.getDate());
+		return (fechaFuncion == null) ? "" : fechaFuncion;
 	}
 	
 	String leerHoraFuncion() {
@@ -584,11 +643,15 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 	}
 	
 	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		if (cambios) {
+			int respuesta = confirmar("¿Desea guardar los cambios realizados en el archivo \"" + arregloPeliculas.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				arregloFunciones.grabarFunciones();
+				mensaje("\"" + arregloFunciones.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+			}
+		}
 		dispose();
-	}
-	
-	protected void actionPerformedTxtDistrito(ActionEvent e) {
-		txtHoraFuncion.requestFocus();
 	}
 	
 	protected void actionPerformedTxtFechaInicio(ActionEvent e) {
@@ -601,8 +664,10 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloFunciones.getArchivo() + "\"?");
 			if (respuesta == JOptionPane.YES_OPTION) {
 				// Se guardan los cambios en los archivos correspondientes
-				arregloFunciones.grabarFunciones();
+				arregloFunciones.grabarFunciones();	
 				mensaje("\"" + arregloFunciones.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+				
 			} else {
 				mensaje("No se actualizó \"" + arregloFunciones.getArchivo() + "\"");
 			}
@@ -642,10 +707,18 @@ public class DlgMantenimientoFuncion extends JDialog implements ActionListener, 
 	protected void actionPerformedCboPelicula(ActionEvent e) {
 	}
 	
-	// Llena el combobox con los Cines existentes
+	// Llena el combobox con los Cines que tienen al menos una sala
 	public void cargarCinesExistentes() {
 		for (int i = 0; i < arregloCines.tamaño(); i++) {
-			cboCine.addItem(arregloCines.obtener(i).getNombre());
+			Cine cine = arregloCines.obtener(i);
+			for (int j = 0; j < arregloSalas.tamaño(); j++) {
+				Sala sala = arregloSalas.obtener(j);
+				if (sala.getCodigoCine() == cine.getCodigo()) {
+					// Significa que el cine actual al menos contiene una sala
+					cboCine.addItem(arregloCines.obtener(i).getNombre());
+					break;
+				}
+			}
 		}
 	}
 	

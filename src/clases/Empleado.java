@@ -1,5 +1,60 @@
 package clases;
 
+public class Empleado extends Usuario {
+	// Atributos privados
+	private int tipo;		// Administrador = 0 | Supervisor = 1 | Cajero = 2
+	private String fechaInicio;
+	
+	// Constructor
+	public Empleado(int codigo, String nombres, String apellidoPaterno, String apellidoMaterno, String direccion,
+			String distrito, String fechaNacimiento, int estadoCivil, String telefono, String dni, String usuario,
+			String contraseña, int tipo, String fechaInicio) {
+		super(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento, estadoCivil,
+				telefono, dni, usuario, contraseña);
+		this.tipo = tipo;
+		this.fechaInicio = fechaInicio;
+	}
+
+	// Métodos de acceso público get y set
+	public int getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(String fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	
+	// Operaciones complementarias
+	public String getTipoDescripcion() {
+		String tipoEmpleado;
+		
+		switch (this.getTipo()) {
+			case 0:
+				tipoEmpleado = "Administrador"; 
+				break;
+				
+			case 1:
+				tipoEmpleado = "Supervisor";
+				break;
+				
+			default:
+				tipoEmpleado = "Cajero";
+				break;
+		}
+		
+		return tipoEmpleado;
+	}
+}
+/*package clases;
+
 public class Empleado {
 	
 	// Atributos privados
@@ -96,4 +151,4 @@ public class Empleado {
 		}
 		return tipoEmpleado;
 	}
-}
+}*/

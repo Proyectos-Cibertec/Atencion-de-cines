@@ -13,7 +13,7 @@ public class Pelicula {
 	private int duracion; // minutos
 	private int tipoCensura; // 0 = Apta para todos
 							 // 1 = Mayores de 14 años
-							 // 2 = Fuera de cartelera
+							 // 2 = Mayores de 18 años
 	private int estadoProyeccion; // 0 = En cartelera | 2 = Fuera de cartelera
 	private double recaudacion;
 
@@ -130,5 +130,33 @@ public class Pelicula {
 
 	public void setRecaudacion(double recaudacion) {
 		this.recaudacion = recaudacion;
+	}
+	
+	// Métodos públicos complementarios
+	public String getTipoProyeccionDescripcion() {
+		return this.getTipoProyeccion() == 0 ? "Estreno" : "Fuera de estreno";
+	}
+	
+	public String getTipoCensuraDescripcion() {
+		String tipoCensura;
+		
+		switch (this.getTipoCensura()) {
+			case 0:
+				tipoCensura = "Apta para todos";
+			break;
+			
+			case 1:
+				tipoCensura = "Mayores de 14 años";
+			break;
+			
+			default:
+				tipoCensura = "Mayores de 18 años";
+		}
+		
+		return tipoCensura;
+	}
+	
+	public String getEstadoProyeccionDescripcion() {
+		return this.getEstadoProyeccion() == 0 ? "En cartelera" : "Fuera de cartelera";
 	}
 }

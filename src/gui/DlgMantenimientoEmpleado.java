@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,10 +21,13 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloEmpleados;
 import clases.Empleado;
+import libreria.LibreriaFechas;
+import libreria.GeneradorClave;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPasswordField;
-public class DlgMantenimientoEmpleado extends JDialog implements ActionListener {
+import com.toedter.calendar.JDateChooser;
+public class DlgMantenimientoEmpleado extends JInternalFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -33,12 +37,12 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	private JLabel lblNombres;
 	private JLabel lblApellidoPaterno;
 	private JLabel lblApellidoMaterno;
-	private JLabel lblTipo;
+	private JLabel lblEstadoCivil;
 	private JTextField txtCodigo;
 	private JTextField txtNombres;
 	private JTextField txtApellidoPaterno;
 	private JTextField txtApellidoMaterno;
-	private JComboBox<String> cboTipo;
+	private JComboBox<String> cboEstadoCivil;
 	private JButton btnBuscar;
 	private JScrollPane scrollPane;
 	private JTable tblTabla;
@@ -83,10 +87,12 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	 * Create the dialog.
 	 */
 	public DlgMantenimientoEmpleado() {
-		setModal(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setClosable(true);
 		setResizable(false);
 		setTitle("Mantenimiento | Empleado");
-		setBounds(100, 100, 832, 624);
+		setBounds(100, 100, 1033, 788);
 		getContentPane().setLayout(null);
 		
 		lblMensaje = new JLabel("Seleccione una acci\u00F3n");
@@ -103,24 +109,24 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		getContentPane().add(lblCdigo);
 		
 		lblNombres = new JLabel("Nombres");
-		lblNombres.setBounds(27, 83, 46, 14);
+		lblNombres.setBounds(27, 87, 46, 14);
 		getContentPane().add(lblNombres);
 		
 		lblApellidoPaterno = new JLabel("Apellido paterno");
-		lblApellidoPaterno.setBounds(27, 108, 78, 14);
+		lblApellidoPaterno.setBounds(27, 112, 78, 14);
 		getContentPane().add(lblApellidoPaterno);
 		
 		lblApellidoMaterno = new JLabel("Apellido materno");
-		lblApellidoMaterno.setBounds(27, 133, 80, 14);
+		lblApellidoMaterno.setBounds(27, 137, 80, 14);
 		getContentPane().add(lblApellidoMaterno);
 		
-		lblTipo = new JLabel("Tipo");
-		lblTipo.setBounds(27, 158, 46, 14);
-		getContentPane().add(lblTipo);
+		lblEstadoCivil = new JLabel("Estado civil");
+		lblEstadoCivil.setBounds(27, 265, 53, 14);
+		getContentPane().add(lblEstadoCivil);
 		
 		txtCodigo = new JTextField();
 		txtCodigo.setEditable(false);
-		txtCodigo.setBounds(129, 55, 86, 20);
+		txtCodigo.setBounds(158, 55, 86, 20);
 		getContentPane().add(txtCodigo);
 		txtCodigo.setColumns(10);
 		txtCodigo.addActionListener(this);
@@ -128,42 +134,43 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		txtNombres = new JTextField();
 		txtNombres.addActionListener(this);
 		txtNombres.setEditable(false);
-		txtNombres.setBounds(129, 80, 184, 20);
+		txtNombres.setBounds(158, 84, 230, 20);
 		getContentPane().add(txtNombres);
 		txtNombres.setColumns(10);
 		
 		txtApellidoPaterno = new JTextField();
 		txtApellidoPaterno.addActionListener(this);
 		txtApellidoPaterno.setEditable(false);
-		txtApellidoPaterno.setBounds(129, 105, 242, 20);
+		txtApellidoPaterno.setBounds(158, 109, 290, 20);
 		getContentPane().add(txtApellidoPaterno);
 		txtApellidoPaterno.setColumns(10);
 		
 		txtApellidoMaterno = new JTextField();
 		txtApellidoMaterno.addActionListener(this);
 		txtApellidoMaterno.setEditable(false);
-		txtApellidoMaterno.setBounds(129, 130, 242, 20);
+		txtApellidoMaterno.setBounds(158, 134, 290, 20);
 		getContentPane().add(txtApellidoMaterno);
 		txtApellidoMaterno.setColumns(10);
 		
-		cboTipo = new JComboBox<String>();
-		cboTipo.addActionListener(this);
-		cboTipo.setEnabled(false);
-		cboTipo.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Supervisor", "Cajero"}));
-		cboTipo.setBounds(129, 155, 184, 20);
-		getContentPane().add(cboTipo);
+		cboEstadoCivil = new JComboBox<String>();
+		cboEstadoCivil.addActionListener(this);
+		cboEstadoCivil.setEnabled(false);
+		cboEstadoCivil.setModel(new DefaultComboBoxModel<String>(new String[] {"Soltero", "Casado", "Viudo", "Divorciado"}));
+		cboEstadoCivil.setBounds(158, 262, 133, 20);
+		getContentPane().add(cboEstadoCivil);
 		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setEnabled(false);
 		btnBuscar.addActionListener(this);
-		btnBuscar.setBounds(225, 54, 89, 23);
+		btnBuscar.setBounds(299, 54, 89, 23);
 		getContentPane().add(btnBuscar);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 257, 770, 280);
+		scrollPane.setBounds(26, 418, 969, 297);
 		getContentPane().add(scrollPane);
 		
 		tblTabla = new JTable();
+		tblTabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tblTabla.setFillsViewportHeight(true);
 		scrollPane.setViewportView(tblTabla);
 		
@@ -190,13 +197,13 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setEnabled(false);
 		btnAceptar.addActionListener(this);
-		btnAceptar.setBounds(677, 180, 120, 23);
+		btnAceptar.setBounds(677, 222, 120, 23);
 		getContentPane().add(btnAceptar);
 		
 		btnVolver = new JButton("Volver");
 		btnVolver.setEnabled(false);
 		btnVolver.addActionListener(this);
-		btnVolver.setBounds(677, 205, 120, 23);
+		btnVolver.setBounds(677, 249, 120, 23);
 		getContentPane().add(btnVolver);
 		
 		modelo = new DefaultTableModel();
@@ -204,47 +211,145 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		modelo.addColumn("Nombres");
 		modelo.addColumn("Apellido Paterno");
 		modelo.addColumn("Apellido Materno");
+		modelo.addColumn("Dirección");
+		modelo.addColumn("Distrito");
+		modelo.addColumn("Fecha de nacimiento");
+		modelo.addColumn("Fecha de inicio");
+		modelo.addColumn("Estado civil");
+		modelo.addColumn("Teléfono");
+		modelo.addColumn("Dni");
 		modelo.addColumn("Tipo");
 		modelo.addColumn("Usuario");
 		modelo.addColumn("Contraseña");
 		tblTabla.setModel(modelo);
 		
 		lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(27, 183, 46, 14);
+		lblUsuario.setBounds(27, 365, 46, 14);
 		getContentPane().add(lblUsuario);
 		
 		lblContrasea = new JLabel("Contrase\u00F1a");
-		lblContrasea.setBounds(27, 208, 56, 14);
+		lblContrasea.setBounds(27, 390, 56, 14);
 		getContentPane().add(lblContrasea);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.addActionListener(this);
 		txtUsuario.setEditable(false);
-		txtUsuario.setBounds(129, 180, 184, 20);
+		txtUsuario.setBounds(158, 362, 184, 20);
 		getContentPane().add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		txtContraseña = new JPasswordField();
 		txtContraseña.addActionListener(this);
 		txtContraseña.setEditable(false);
-		txtContraseña.setBounds(129, 205, 184, 20);
+		txtContraseña.setBounds(158, 387, 184, 20);
 		getContentPane().add(txtContraseña);
 		
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(this);
-		btnCerrar.setBounds(708, 548, 89, 23);
+		btnCerrar.setBounds(906, 726, 89, 23);
 		getContentPane().add(btnCerrar);
+		
+		lblDireccion = new JLabel("Direcci\u00F3n");
+		lblDireccion.setBounds(27, 162, 43, 14);
+		getContentPane().add(lblDireccion);
+		
+		txtDireccion = new JTextField();
+		txtDireccion.addActionListener(this);
+		txtDireccion.setEditable(false);
+		txtDireccion.setBounds(158, 159, 290, 20);
+		getContentPane().add(txtDireccion);
+		txtDireccion.setColumns(10);
+		
+		lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
+		lblFechaDeNacimiento.setBounds(27, 215, 98, 14);
+		getContentPane().add(lblFechaDeNacimiento);
+		
+		lblFechaDeInicio = new JLabel("Fecha de inicio");
+		lblFechaDeInicio.setBounds(27, 240, 88, 14);
+		getContentPane().add(lblFechaDeInicio);
+		
+		lblTelfono = new JLabel("Tel\u00E9fono");
+		lblTelfono.setBounds(27, 290, 46, 14);
+		getContentPane().add(lblTelfono);
+		
+		txtTelefono = new JTextField();
+		txtTelefono.addActionListener(this);
+		txtTelefono.setEditable(false);
+		txtTelefono.setBounds(158, 287, 133, 20);
+		getContentPane().add(txtTelefono);
+		txtTelefono.setColumns(10);
+		
+		lblDni = new JLabel("DNI");
+		lblDni.setBounds(313, 241, 18, 14);
+		getContentPane().add(lblDni);
+		
+		txtDni = new JTextField();
+		txtDni.addActionListener(this);
+		txtDni.setEditable(false);
+		txtDni.setBounds(341, 238, 107, 20);
+		getContentPane().add(txtDni);
+		txtDni.setColumns(10);
 		
 		btnGrabar = new JButton("Grabar");
 		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(609, 548, 89, 23);
+		btnGrabar.setBounds(807, 726, 89, 23);
 		getContentPane().add(btnGrabar);
+		
+		txtFechaNacimiento = new JDateChooser();
+		txtFechaNacimiento.setDateFormatString("dd/MM/yyyy");
+		txtFechaNacimiento.setEnabled(false);
+		txtFechaNacimiento.setBounds(158, 211, 133, 20);
+		getContentPane().add(txtFechaNacimiento);
+		
+		txtFechaInicio = new JDateChooser();
+		txtFechaInicio.setEnabled(false);
+		txtFechaInicio.setDateFormatString("dd/MM/yyyy");
+		txtFechaInicio.setBounds(158, 236, 133, 20);
+		getContentPane().add(txtFechaInicio);
+		
+		lblDistrito = new JLabel("Distrito");
+		lblDistrito.setBounds(27, 187, 46, 14);
+		getContentPane().add(lblDistrito);
+		
+		txtDistrito = new JTextField();
+		txtDistrito.setEditable(false);
+		txtDistrito.setBounds(158, 185, 290, 20);
+		getContentPane().add(txtDistrito);
+		txtDistrito.setColumns(10);
+		
+		btnGenerar = new JButton("Generar");
+		btnGenerar.setEnabled(false);
+		btnGenerar.addActionListener(this);
+		btnGenerar.setBounds(359, 361, 89, 23);
+		getContentPane().add(btnGenerar);
+		
+		lblTipo = new JLabel("Tipo");
+		lblTipo.setBounds(27, 315, 46, 14);
+		getContentPane().add(lblTipo);
+		
+		cboTipo = new JComboBox<String>();
+		cboTipo.setEnabled(false);
+		cboTipo.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Supervisor", "Cajero"}));
+		cboTipo.setBounds(158, 318, 133, 20);
+		getContentPane().add(cboTipo);
 		
 		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnGenerar) {
+			actionPerformedBtnGenerar(e);
+		}
 		if (e.getSource() == btnGrabar) {
 			actionPerformedBtnGrabar(e);
+		}
+		if (e.getSource() == txtDni) {
+			actionPerformedTxtDni(e);
+		}
+		if (e.getSource() == txtTelefono) {
+			actionPerformedTxtTelefono(e);
+		}
+		if (e.getSource() == txtDireccion) {
+			actionPerformedTxtDireccion(e);
 		}
 		if (e.getSource() == txtContraseña) {
 			actionPerformedTxtContraseña(e);
@@ -252,8 +357,8 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		if (e.getSource() == txtUsuario) {
 			actionPerformedTxtUsuario(e);
 		}
-		if (e.getSource() == cboTipo) {
-			actionPerformedCboTipo(e);
+		if (e.getSource() == cboEstadoCivil) {
+			actionPerformedCboEstadoCivil(e);
 		}
 		if (e.getSource() == txtApellidoMaterno) {
 			actionPerformedTxtApellidoMaterno(e);
@@ -292,17 +397,34 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	
 	// Declaración Global
 	ArregloEmpleados arregloEmpleados = new ArregloEmpleados("empleados.txt");
+	boolean cambios = false; // Permite saber si se hicieron cambios que necesitan guardarse
+	
 	private JLabel lblUsuario;
 	private JLabel lblContrasea;
 	private JTextField txtUsuario;
 	private JPasswordField txtContraseña;
 	private JButton btnCerrar;
+	private JLabel lblDireccion;
+	private JTextField txtDireccion;
+	private JLabel lblFechaDeNacimiento;
+	private JLabel lblFechaDeInicio;
+	private JLabel lblTelfono;
+	private JTextField txtTelefono;
+	private JLabel lblDni;
+	private JTextField txtDni;
 	private JButton btnGrabar;
+	private JDateChooser txtFechaNacimiento;
+	private JDateChooser txtFechaInicio;
+	private JLabel lblDistrito;
+	private JTextField txtDistrito;
+	private JButton btnGenerar;
+	private JLabel lblTipo;
+	private JComboBox<String> cboTipo;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
 		lblMensaje.setText("Ingresando Empleado");
-		txtCodigo.setText(arregloEmpleados.codigoCorrelativo() + ""); // Se genera el código del siguiente empleado
+		txtCodigo.setText(arregloEmpleados.codigoCorrelativo() + ""); // Se genera el código del siguiente Empleado
 		limpiarEntradas();
 		habilitarEntradas(true);
 		habilitarBotones(false);
@@ -379,9 +501,17 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 					empleado.getNombres(),
 					empleado.getApellidoPaterno(),
 					empleado.getApellidoMaterno(),
-					empleado.nombreTipoEmpleado(),
+					empleado.getDireccion(),
+					empleado.getDistrito(),
+					empleado.getFechaNacimiento(),
+					empleado.getFechaInicio(),
+					empleado.getEstadoCivilDescripcion(),
+					empleado.getTelefono(),
+					empleado.getDni(),
+					empleado.getTipoDescripcion(),
 					empleado.getUsuario(),
-					empleado.getContraseña()};
+					empleado.getContraseña()
+			};
 			modelo.addRow(fila);
 		}
 	}
@@ -394,29 +524,73 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 			if (apellidoPaterno.length() > 0) {
 				String apellidoMaterno = leerApellidoMaterno();
 				if (apellidoMaterno.length() > 0) {
-					int tipo = leerTipo();
-					String usuario = leerUsuario();
-					if (usuario.length() > 0) {
-						String contraseña = leerContraseña();
-						if (contraseña.length() > 0) {
-							// Datos correctos
-							Empleado empleado = new Empleado(codigo, nombres, apellidoPaterno, apellidoMaterno, tipo, usuario, contraseña);
-							arregloEmpleados.adicionar(empleado);
-							listar();
-							txtCodigo.setText("" + arregloEmpleados.codigoCorrelativo());
-							limpiarEntradas();
-							txtNombres.requestFocus();
-							mensaje("Registro exitoso");
-							
+					String direccion = leerDireccion();
+					if (direccion.length() > 0) {
+						String distrito = leerDistrito();
+						if (distrito.length() > 0) {
+							String fechaNacimiento = leerFechaNacimiento();
+							if (fechaNacimiento.length() > 0) {
+								String fechaInicio = leerFechaInicio();
+								if (fechaInicio.length() > 0) {
+									int estadoCivil = leerEstadoCivil();
+									String telefono = leerTelefono();
+									if (telefono.length() > 0) {
+										String dni = leerDni();
+										if (dni.length() > 0) {
+											int tipo = leerTipo();
+											String usuario = leerUsuario();
+											if (usuario.length() > 0) {
+												String contraseña = leerContraseña();
+												if (contraseña.length() > 0) {
+													// Datos correctos
+													Empleado empleado = new Empleado(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento, estadoCivil,  telefono, dni, usuario, contraseña, tipo, fechaInicio);
+													arregloEmpleados.adicionar(empleado);
+													listar();
+													txtCodigo.setText("" + arregloEmpleados.codigoCorrelativo());
+													limpiarEntradas();
+													txtNombres.requestFocus();
+													mensaje("Registro exitoso");
+													cambios = true; // Variable que permite saber si se realizaron cambios en el array list
+													
+												} else {
+													mensaje("Ingrese Contraseña correcta");
+													txtContraseña.setText("");
+													txtContraseña.requestFocus();
+												}
+											} else {
+												mensaje("Ingrese Usuario correcto");
+												txtUsuario.setText("");
+												txtUsuario.requestFocus();
+											}
+										} else {
+											mensaje("Ingrese DNI correcto");
+											txtDni.setText("");
+											txtDni.requestFocus();
+										}
+									} else {
+										mensaje("Ingrese Teléfono correcto");
+										txtTelefono.setText("");
+										txtTelefono.requestFocus();
+									}
+								} else {
+									mensaje("Ingrese Fecha de afiliación correcta");
+									txtFechaInicio.setDate(null);
+									txtFechaInicio.requestFocus();
+								}
+							} else {
+								mensaje("Ingrese Fecha de nacimiento correcta");
+								txtFechaNacimiento.setDate(null);
+								txtFechaNacimiento.requestFocus();
+							}
 						} else {
-							mensaje("Ingrese Contraseña correcta");
-							txtContraseña.setText("");
-							txtContraseña.requestFocus();
+							mensaje("Ingrese Distrito correcto");
+							txtDistrito.setText("");
+							txtDistrito.requestFocus();
 						}
 					} else {
-						mensaje("Ingrese Usuario correcto");
-						txtUsuario.setText("");
-						txtUsuario.requestFocus();
+						mensaje("Ingrese Dirección correcta");
+						txtDireccion.setText("");
+						txtDireccion.requestFocus();
 					}
 				} else {
 					mensaje("Ingrese Apelido Materno correcto");
@@ -442,6 +616,13 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 				txtNombres.setText(empleado.getNombres());
 				txtApellidoPaterno.setText(empleado.getApellidoPaterno());
 				txtApellidoMaterno.setText(empleado.getApellidoMaterno());
+				txtDireccion.setText(empleado.getDireccion());
+				txtDistrito.setText(empleado.getDistrito());
+				txtFechaNacimiento.setDate(LibreriaFechas.stringToDate(empleado.getFechaNacimiento()));
+				txtFechaInicio.setDate(LibreriaFechas.stringToDate(empleado.getFechaInicio()));
+				cboEstadoCivil.setSelectedIndex(empleado.getEstadoCivil());
+				txtTelefono.setText(empleado.getTelefono());
+				txtDni.setText(empleado.getDni());
 				cboTipo.setSelectedIndex(empleado.getTipo());
 				txtUsuario.setText(empleado.getUsuario());
 				txtContraseña.setText(empleado.getContraseña());
@@ -466,35 +647,87 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 				if (apellidoPaterno.length() > 0) {
 					String apellidoMaterno = leerApellidoMaterno();
 					if (apellidoMaterno.length() > 0) {
-						int tipo = leerTipo();
-						String usuario = leerUsuario();
-						if (usuario.length() > 0) {
-							String contraseña = leerContraseña();
-							if (contraseña.length() > 0) {
-								// Datos correctos
-								int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar los datos del empleado seleccionado?",
-										"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
-										
-								if (respuesta == JOptionPane.YES_OPTION) {
-									empleado.setNombres(nombres);
-									empleado.setApellidoPaterno(apellidoPaterno);
-									empleado.setApellidoMaterno(apellidoMaterno);
-									empleado.setTipo(tipo);
-									empleado.setUsuario(usuario);
-									empleado.setContraseña(contraseña);
-									listar();
-									txtCodigo.requestFocus();								
-									mensaje("Modificación exitosa");
+						String direccion = leerDireccion();
+						if (direccion.length() > 0) {
+							String distrito = leerDistrito();
+							if (distrito.length() > 0) {
+								String fechaNacimiento = leerFechaNacimiento();
+								if (fechaNacimiento.length() > 0) {
+									String fechaInicio = leerFechaInicio();
+									if (fechaInicio.length() > 0) {
+										int estadoCivil = leerEstadoCivil();
+										String telefono = leerTelefono();
+										if (telefono.length() > 0) {
+											String dni = leerDni();
+											if (dni.length() > 0) {
+												int tipo = leerTipo();
+												String usuario = leerUsuario();
+												if (usuario.length() > 0) {
+													String contraseña = leerContraseña();
+													if (contraseña.length() > 0) {
+														// Datos correctos
+														int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar los datos del empleado seleccionado?",
+																"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
+																
+														if (respuesta == JOptionPane.YES_OPTION) {
+															empleado.setNombres(nombres);
+															empleado.setApellidoPaterno(apellidoPaterno);
+															empleado.setApellidoMaterno(apellidoMaterno);
+															empleado.setDireccion(direccion);
+															empleado.setDistrito(distrito);
+															empleado.setFechaNacimiento(fechaNacimiento);
+															empleado.setFechaInicio(fechaInicio);
+															empleado.setEstadoCivil(estadoCivil);
+															empleado.setTelefono(telefono);
+															empleado.setDni(dni);
+															empleado.setTipo(tipo);
+															empleado.setUsuario(usuario);
+															empleado.setContraseña(contraseña);
+															listar();
+															txtCodigo.requestFocus();								
+															mensaje("Modificación exitosa");
+															cambios = true; // Variable que permite saber si se realizaron cambios en el array list
+														}
+														
+													} else {
+														mensaje("Ingrese Contraseña correcta");
+														txtContraseña.setText("");
+														txtContraseña.requestFocus();
+													}
+												} else {
+													mensaje("Ingrese Usuario correcto");
+													txtUsuario.setText("");
+													txtUsuario.requestFocus();
+												}
+											} else {
+												mensaje("Ingrese DNI correcto");
+												txtDni.setText("");
+												txtDni.requestFocus();
+											}
+										} else {
+											mensaje("Ingrese Teléfono correcto");
+											txtTelefono.setText("");
+											txtTelefono.requestFocus();
+										}
+									} else {
+										mensaje("Ingrese Fecha de afiliación correcta");
+										txtFechaInicio.setDate(null);
+										txtFechaInicio.requestFocus();
+									}
+								} else {
+									mensaje("Ingrese Fecha de nacimiento correcta");
+									txtFechaNacimiento.setDate(null);
+									txtFechaNacimiento.requestFocus();
 								}
 							} else {
-								mensaje("Ingrese Contraseña correcta");
-								txtContraseña.setText("");
-								txtContraseña.requestFocus();
-							}
+								mensaje("Ingrese Distrito correcto");
+								txtDistrito.setText("");
+								txtDistrito.requestFocus();
+							}							
 						} else {
-							mensaje("Ingrese Usuario correcto");
-							txtUsuario.setText("");
-							txtUsuario.requestFocus();
+							mensaje("Ingrese Dirección correcta");
+							txtDireccion.setText("");
+							txtDireccion.requestFocus();
 						}
 					} else {
 						mensaje("Ingrese Apelido Materno correcto");
@@ -532,6 +765,7 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 					limpiarEntradas();
 					txtCodigo.requestFocus();
 					mensaje("Eliminación exitosa");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el array list
 				}
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -550,6 +784,13 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		txtNombres.setText("");
 		txtApellidoPaterno.setText("");
 		txtApellidoMaterno.setText("");
+		txtDireccion.setText("");
+		txtDistrito.setText("");
+		txtFechaNacimiento.setDate(null);
+		txtFechaInicio.setDate(LibreriaFechas.fechaActual()); // Por defecto es la fecha actual
+		cboEstadoCivil.setSelectedIndex(0);
+		txtTelefono.setText("");
+		txtDni.setText("");
 		cboTipo.setSelectedIndex(0);
 		txtUsuario.setText("");
 		txtContraseña.setText("");
@@ -560,9 +801,18 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		txtNombres.setEditable(valor);
 		txtApellidoPaterno.setEditable(valor);
 		txtApellidoMaterno.setEditable(valor);
+		txtDireccion.setEditable(valor);
+		txtDistrito.setEditable(valor);
+		txtFechaNacimiento.setEnabled(valor);
+		txtFechaInicio.setEnabled(valor);
+		cboEstadoCivil.setEnabled(valor);
+		txtTelefono.setEditable(valor);
+		txtDni.setEditable(valor);
 		cboTipo.setEnabled(valor);
 		txtUsuario.setEditable(valor);
 		txtContraseña.setEditable(valor);
+		
+		btnGenerar.setEnabled(valor);
 	}
 	
 	// Habilita / Deshabilita botones
@@ -617,8 +867,38 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		return txtApellidoMaterno.getText().trim();
 	}
 	
+	String leerDireccion() {
+		return txtDireccion.getText().trim();
+	}
+	
+	String leerDistrito() {
+		return txtDistrito.getText().trim();
+	}
+	
+	String leerFechaNacimiento() {
+		String fechaNacimiento = LibreriaFechas.dateToString(txtFechaNacimiento.getDate());
+		return (fechaNacimiento == null) ? "" : fechaNacimiento;
+	}
+	
+	String leerFechaInicio() {
+		String fechaInicio = LibreriaFechas.dateToString(txtFechaInicio.getDate());
+		return (fechaInicio == null) ? "" : fechaInicio;
+	}
+	
+	int leerEstadoCivil() {
+		return cboEstadoCivil.getSelectedIndex();
+	}
+	
 	int leerTipo() {
 		return cboTipo.getSelectedIndex();
+	}
+	
+	String leerTelefono() {
+		return txtTelefono.getText().trim();
+	}
+	
+	String leerDni() {
+		return txtDni.getText().trim();
 	}
 	
 	String leerUsuario() {
@@ -630,6 +910,16 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	}
 	
 	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		if (cambios) {
+			int respuesta = confirmar("¿Desea guardar los cambios realizados en el archivo \"" + arregloEmpleados.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				arregloEmpleados.grabarEmpleados();
+				mensaje("\"" + arregloEmpleados.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+			} else {
+				// mensaje("No se actualizó \"" + arregloClientes.getArchivo() + "\"");
+			}
+		}
 		dispose();
 	}
 	
@@ -642,11 +932,11 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 	}
 	
 	protected void actionPerformedTxtApellidoMaterno(ActionEvent e) {
-		cboTipo.requestFocus();
+		txtDireccion.requestFocus();
 	}
 	
-	protected void actionPerformedCboTipo(ActionEvent e) {
-		txtUsuario.requestFocus();
+	protected void actionPerformedCboEstadoCivil(ActionEvent e) {
+		txtTelefono.requestFocus();
 	}
 	
 	protected void actionPerformedTxtUsuario(ActionEvent e) {
@@ -657,20 +947,74 @@ public class DlgMantenimientoEmpleado extends JDialog implements ActionListener 
 		btnAceptar.requestFocus();
 	}
 	
+	protected void actionPerformedTxtDireccion(ActionEvent e) {
+		txtFechaNacimiento.requestFocus();
+	}
+	
+	protected void actionPerformedTxtTelefono(ActionEvent e) {
+		txtDni.requestFocus();
+	}
+	
+	protected void actionPerformedTxtDni(ActionEvent e) {
+		txtUsuario.requestFocus();
+	}
+	
 	// Actualiza el archivo
 	protected void actionPerformedBtnGrabar(ActionEvent e) {
 		if (arregloEmpleados.existeArchivo()) {
 			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloEmpleados.getArchivo() + "\"?");
 			if (respuesta == JOptionPane.YES_OPTION) {
+				// Se guardan los cambios en los archivos correspondientes
 				arregloEmpleados.grabarEmpleados();
 				mensaje("\"" + arregloEmpleados.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
 			} else {
 				mensaje("No se actualizó \"" + arregloEmpleados.getArchivo() + "\"");
 			}
 		} else {
-			// Si no existe el archivo es creado
+			// Si no existe el archivo es creado y se guardan los cambios correspondientes
 			arregloEmpleados.grabarEmpleados();
 			mensaje("\"" + arregloEmpleados.getArchivo() + "\" ha sido creado");
+		}
+	}
+	
+	// Genera el usuario y la contraseña
+	protected void actionPerformedBtnGenerar(ActionEvent e) {
+		int codigo;
+		try {
+			codigo = leerCodigo();
+		} catch (Exception e2) {
+			mensaje("No se puede generar la contraseña porque no se encontró un código de Empleado");
+			txtCodigo.requestFocus();
+			return;
+		}
+		
+		String nombres = leerNombres().split(" ")[0]; // El primer nombre
+		String apellidoPaterno = leerApellidoPaterno();
+		String apellidoMaterno = leerApellidoMaterno();
+		
+		if (nombres.length() > 0) {
+			if (apellidoPaterno.length() > 0) {
+				if (apellidoMaterno.length() > 0) {
+					String usuario = GeneradorClave.generarUsuario(codigo, nombres, apellidoPaterno, apellidoMaterno);
+					String contraseña = GeneradorClave.generarContraseña(codigo, apellidoPaterno, apellidoMaterno);
+					txtUsuario.setText(usuario);
+					txtContraseña.setText(contraseña);
+					mensaje("Apunte en un lugar seguro los datos generados:\n\n" + 
+							"USUARIO             :    " + usuario + "\n" + 
+							"CONTRASEÑA    :    " + contraseña);
+					
+				} else {
+					mensaje("Debe haber ingresado el apellido materno del Empleado para generar su contraseña");
+					txtApellidoPaterno.requestFocus();
+				}
+			} else {
+				mensaje("Debe haber ingresado el apellido paterno del Empleado para generar su contraseña");
+				txtApellidoPaterno.requestFocus();
+			}
+		} else {
+			mensaje("Debe haber ingresado los nombres del Empleado para generar su contraseña");
+			txtNombres.requestFocus();
 		}
 	}
 }

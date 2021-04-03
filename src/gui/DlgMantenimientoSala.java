@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,10 +21,11 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloButacas;
 import arreglos.ArregloCines;
+import arreglos.ArregloFunciones;
 import arreglos.ArregloSalas;
 import clases.Butaca;
 import clases.Sala;
-public class DlgMantenimientoSala extends JDialog implements ActionListener {
+public class DlgMantenimientoSala extends JInternalFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -79,7 +81,9 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgMantenimientoSala() {
-		setModal(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setClosable(true);
 		setResizable(false);
 		setTitle("Mantenimiento | Sala");
 		setBounds(100, 100, 831, 583);
@@ -98,7 +102,7 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 		lblCdigo.setBounds(27, 58, 46, 14);
 		getContentPane().add(lblCdigo);
 		
-		lblCodigoCine = new JLabel("C\u00F3digo de cine");
+		lblCodigoCine = new JLabel("Cine");
 		lblCodigoCine.setBounds(27, 87, 78, 14);
 		getContentPane().add(lblCodigoCine);
 		
@@ -180,7 +184,7 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 		modelo = new DefaultTableModel();
 		modelo.addColumn("Código de sala");
 		modelo.addColumn("Cine");
-		modelo.addColumn("Número");
+		modelo.addColumn("Número de sala");
 		modelo.addColumn("Filas");
 		modelo.addColumn("Butacas");
 		tblTabla.setModel(modelo);
@@ -255,6 +259,8 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 	ArregloSalas arregloSalas = new ArregloSalas("salas.txt");
 	ArregloCines arregloCines = new ArregloCines("cines.txt");
 	ArregloButacas arregloButacas = new ArregloButacas("butacas.txt");
+	ArregloFunciones arregloFunciones = new ArregloFunciones("funciones.txt");
+	boolean cambios = false; // Permite saber si se hicieron cambios que necesitan guardarse
 	
 	private JButton btnCerrar;
 	private JLabel lblNumeroButacas;
@@ -381,6 +387,7 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 								generarButacas(codigo, numeroFilas, numeroButacas);
 								
 								mensaje("Registro exitoso");
+								cambios = true; // Variable que permite saber si se realizaron cambios en el Arraylist 
 								
 							} else {
 								mensaje("El número de butacas debe ser mayor que cero");
@@ -452,11 +459,25 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 									if (respuesta == JOptionPane.YES_OPTION) {
 										sala.setCodigoCine(codigoCine);
 										sala.setNumeroSala(numeroSala);
+										
+										/************************************************************************************/
+										/* Al modificar el # de filas o columnas se ha optado por borrar todas las butacas de la
+										 * sala y volver a generarlas. Para ello el número de filas o columnas de la sala actual
+										 * debe haber cambiado
+										 * */
+										/************************************************************************************/
+										if (sala.getFilas() != numeroFilas || sala.getButacas() != numeroButacas) {
+											arregloButacas.eliminarButacasDeSala(sala.getCodigo()); // Se eliminan todas las butacas
+											generarButacas(sala.getCodigo(), numeroFilas, numeroButacas);
+										}
 										sala.setFilas(numeroFilas);
 										sala.setButacas(numeroButacas);
+										
+										
 										listar();
 										txtCodigo.requestFocus();								
 										mensaje("Modificación exitosa");
+										cambios = true; // Variable que permite saber si se realizaron cambios en el Arraylist
 									}	
 									
 								} else {
@@ -498,13 +519,15 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 						"Seleccionar una opción");
 						
 				if (respuesta == JOptionPane.YES_OPTION) {
-					eliminarButacas(sala.getCodigo()); // Se elimina las butacas de la sala actual
+					arregloButacas.eliminarButacasDeSala(sala.getCodigo()); // Se elimina las butacas de la sala actual
+					arregloFunciones.eliminarFuncionesDeSala(sala.getCodigo()); // Se eliminan las funciones de la sala actual
 					arregloSalas.eliminar(sala);
 					listar();
 					txtCodigo.setText("");
 					limpiarEntradas();
 					txtCodigo.requestFocus();
 					mensaje("Eliminación exitosa");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el Arraylist
 				}
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -512,6 +535,7 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 				txtCodigo.requestFocus();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			mensaje("ingrese Código correcto");
 			txtCodigo.setText("");
 			txtCodigo.requestFocus();
@@ -591,6 +615,17 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 	}
 
 	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		if (cambios) {
+			int respuesta = confirmar("¿Desea guardar los cambios realizados en el archivo \"" + arregloSalas.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				// Se guardan los cambios en los archivos correspondientes
+				arregloSalas.grabarSalas();
+				arregloButacas.grabarButacas();
+				arregloFunciones.grabarFunciones();
+				mensaje("\"" + arregloSalas.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+			}
+		}
 		dispose();
 	}
 	
@@ -599,16 +634,20 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 		if (arregloSalas.existeArchivo()) {
 			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloSalas.getArchivo() + "\"?");
 			if (respuesta == JOptionPane.YES_OPTION) {
+				// Se guardan los cambios en los archivos correspondientes
 				arregloSalas.grabarSalas();
-				arregloButacas.grabarButacas(); // Se graban las butacas en el archivo correspondiente
+				arregloButacas.grabarButacas();
+				arregloFunciones.grabarFunciones();
 				mensaje("\"" + arregloSalas.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el Arraylist
 			} else {
 				mensaje("No se actualizó \"" + arregloSalas.getArchivo() + "\"");
 			}
 		} else {
-			// Si no existe el archivo es creado
+			// Si no existe el archivo es creado y se guardan los cambios correspondientes
 			arregloSalas.grabarSalas();
-			arregloButacas.grabarButacas(); // Se graban las butacas en el archivo correspondiente
+			arregloButacas.grabarButacas();
+			arregloFunciones.grabarFunciones();
 			mensaje("\"" + arregloSalas.getArchivo() + "\" ha sido creado");
 		}
 	}
@@ -631,19 +670,6 @@ public class DlgMantenimientoSala extends JDialog implements ActionListener {
 				int codigoButaca = arregloButacas.codigoCorrelativo();
 				// Se generan las butacas, todas disponibles
 				arregloButacas.adicionar(new Butaca(codigoButaca, codigoSala, (i + 1), (j + 1), 1));
-			}
-		}
-	}
-	
-	// Elimina las butacas para la sala cuyo código se le pasa como argumento
-	public void eliminarButacas(int codigoSala) {
-		int i = 0;
-		while (i < arregloButacas.tamaño()) {
-			Butaca butaca = arregloButacas.obtener(i);
-			if (butaca.getCodigoSala() == codigoSala) {
-				arregloButacas.eliminar(butaca);
-			} else {
-				i++;
 			}
 		}
 	}

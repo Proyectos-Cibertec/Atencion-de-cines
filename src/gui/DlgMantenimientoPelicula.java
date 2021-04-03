@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.EventQueue;
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,8 +19,11 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import arreglos.ArregloPeliculas;
 import clases.Pelicula;
+import libreria.LibreriaFechas;
+
 import javax.swing.DefaultComboBoxModel;
-public class DlgMantenimientoPelicula extends JDialog implements ActionListener {
+import com.toedter.calendar.JDateChooser;
+public class DlgMantenimientoPelicula extends JInternalFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -33,7 +37,6 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	private JTextField txtCodigo;
 	private JTextField txtTituloDistribucion;
 	private JTextField txtTituloOriginal;
-	private JTextField txtFechaEstreno;
 	private JButton btnBuscar;
 	private JScrollPane scrollPane;
 	private JTable tblTabla;
@@ -78,7 +81,9 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	 * Create the dialog.
 	 */
 	public DlgMantenimientoPelicula() {
-		setModal(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setClosable(true);
 		setResizable(false);
 		setTitle("Mantenimiento | Pel\u00EDcula");
 		setBounds(100, 100, 1033, 700);
@@ -133,13 +138,6 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 		txtTituloOriginal.setBounds(158, 109, 290, 20);
 		getContentPane().add(txtTituloOriginal);
 		txtTituloOriginal.setColumns(10);
-		
-		txtFechaEstreno = new JTextField();
-		txtFechaEstreno.addActionListener(this);
-		txtFechaEstreno.setEditable(false);
-		txtFechaEstreno.setBounds(158, 134, 290, 20);
-		getContentPane().add(txtFechaEstreno);
-		txtFechaEstreno.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
 		btnBuscar.setEnabled(false);
@@ -296,6 +294,12 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 		getContentPane().add(txtRecaudacion);
 		txtRecaudacion.setColumns(10);
 		
+		txtFechaEstreno = new JDateChooser();
+		txtFechaEstreno.setEnabled(false);
+		txtFechaEstreno.setDateFormatString("dd/MM/yyyy");
+		txtFechaEstreno.setBounds(158, 134, 184, 20);
+		getContentPane().add(txtFechaEstreno);
+		
 		listar();
 	}
 	
@@ -326,9 +330,6 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 		}
 		if (e.getSource() == txtGenero) {
 			actionPerformedTxtGenero(e);
-		}
-		if (e.getSource() == txtFechaEstreno) {
-			actionPerformedTxtFechaEstreno(e);
 		}
 		if (e.getSource() == txtTituloOriginal) {
 			actionPerformedTxtTituloOriginal(e);
@@ -364,6 +365,8 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	
 	// Declaración Global
 	ArregloPeliculas arregloPeliculas = new ArregloPeliculas("peliculas.txt");
+	boolean cambios = false; // Permite saber si se hicieron cambios que necesitan guardarse
+	
 	private JLabel lblEstadoProyeccion;
 	private JLabel lblRecaudacion;
 	private JButton btnCerrar;
@@ -381,6 +384,7 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	private JComboBox<String> cboTipoCensura;
 	private JComboBox<String> cboEstadoProyeccion;
 	private JTextField txtRecaudacion;
+	private JDateChooser txtFechaEstreno;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -462,13 +466,13 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 					pelicula.getTituloDistribucion(),
 					pelicula.getTituloOriginal(),
 					pelicula.getFechaEstreno(),
-					pelicula.getTipoProyeccion(),
+					pelicula.getTipoProyeccionDescripcion(),
 					pelicula.getGenero(),
 					pelicula.getPaisOrigen(),
 					pelicula.getSinopsis(),
 					pelicula.getDuracion(),
-					pelicula.getTipoCensura(),
-					pelicula.getEstadoProyeccion(),
+					pelicula.getTipoCensuraDescripcion(),
+					pelicula.getEstadoProyeccionDescripcion(),
 					pelicula.getRecaudacion()
 					};
 			modelo.addRow(fila);
@@ -508,6 +512,8 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 												limpiarEntradas();
 												txtTituloDistribucion.requestFocus();
 												mensaje("Registro exitoso");
+												cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+												
 											} else {
 												throw new Exception();
 											}
@@ -541,7 +547,7 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 					}
 				} else {
 					mensaje("Ingrese la Fecha de Estreno correcta");
-					txtFechaEstreno.setText("");
+					txtFechaEstreno.setDate(null);
 					txtFechaEstreno.requestFocus();
 				}
 			} else {
@@ -562,7 +568,7 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 			if (pelicula != null) {
 				txtTituloDistribucion.setText(pelicula.getTituloDistribucion());
 				txtTituloOriginal.setText(pelicula.getTituloOriginal());
-				txtFechaEstreno.setText(pelicula.getFechaEstreno());
+				txtFechaEstreno.setDate(LibreriaFechas.stringToDate(pelicula.getFechaEstreno()));
 				cboTipoProyeccion.setSelectedIndex(pelicula.getTipoProyeccion());
 				txtGenero.setText(pelicula.getGenero());
 				txtPaisOrigen.setText(pelicula.getPaisOrigen());
@@ -626,6 +632,8 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 														listar();
 														txtCodigo.requestFocus();								
 														mensaje("Modificación exitosa");
+														cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+														
 													}
 												} else {
 													throw new Exception();
@@ -660,7 +668,7 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 						}
 					} else {
 						mensaje("Ingrese la Fecha de Estreno correcta");
-						txtFechaEstreno.setText("");
+						txtFechaEstreno.setDate(null);
 						txtFechaEstreno.requestFocus();
 					}
 				} else {
@@ -694,6 +702,8 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 					limpiarEntradas();
 					txtCodigo.requestFocus();
 					mensaje("Eliminación exitosa");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el ArrayList
+					
 				}
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -711,7 +721,7 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	void limpiarEntradas() {
 		txtTituloDistribucion.setText("");
 		txtTituloOriginal.setText("");
-		txtFechaEstreno.setText("");
+		txtFechaEstreno.setDate(LibreriaFechas.fechaActual()); // Por defecto es la fecha actual
 		cboTipoProyeccion.setSelectedIndex(0);
 		txtGenero.setText("");
 		txtPaisOrigen.setText("");
@@ -726,7 +736,7 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	void habilitarEntradas(boolean valor) {		
 		txtTituloDistribucion.setEditable(valor);
 		txtTituloOriginal.setEditable(valor);
-		txtFechaEstreno.setEditable(valor);
+		txtFechaEstreno.setEnabled(valor);
 		cboTipoProyeccion.setEnabled(valor);
 		txtGenero.setEditable(valor);
 		txtPaisOrigen.setEditable(valor);
@@ -786,7 +796,8 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 	}
 	
 	String leerFechaEstreno() {
-		return txtFechaEstreno.getText().trim();
+		String fechaEstreno = LibreriaFechas.dateToString(txtFechaEstreno.getDate());
+		return (fechaEstreno == null) ? "" : fechaEstreno;
 	}
 	
 	int leerTipoProyeccion() {
@@ -821,20 +832,12 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 		return Double.parseDouble(txtRecaudacion.getText().trim());
 	}
 	
-	protected void actionPerformedBtnCerrar(ActionEvent e) {
-		dispose();
-	}
-	
 	protected void actionPerformedTxtTituloDistribucion(ActionEvent e) {
 		txtTituloOriginal.requestFocus();
 	}
 	
 	protected void actionPerformedTxtTituloOriginal(ActionEvent e) {
 		txtFechaEstreno.requestFocus();
-	}
-	
-	protected void actionPerformedTxtFechaEstreno(ActionEvent e) {
-		cboTipoProyeccion.requestFocus();
 	}
 	
 	protected void actionPerformedTxtGenero(ActionEvent e) {
@@ -874,15 +877,30 @@ public class DlgMantenimientoPelicula extends JDialog implements ActionListener 
 		if (arregloPeliculas.existeArchivo()) {
 			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloPeliculas.getArchivo() + "\"?");
 			if (respuesta == JOptionPane.YES_OPTION) {
+				// Se guardan los cambios en los archivos correspondientes
 				arregloPeliculas.grabarPeliculas();
 				mensaje("\"" + arregloPeliculas.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
 			} else {
 				mensaje("No se actualizó \"" + arregloPeliculas.getArchivo() + "\"");
 			}
 		} else {
-			// Si no existe el archivo es creado
+			// Si no existe el archivo es creado y se guardan los cambios correspondientes
 			arregloPeliculas.grabarPeliculas();
 			mensaje("\"" + arregloPeliculas.getArchivo() + "\" ha sido creado");
 		}
+	}
+	
+	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		if (cambios) {
+			int respuesta = confirmar("¿Desea guardar los cambios realizados en el archivo \"" + arregloPeliculas.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				
+				arregloPeliculas.grabarPeliculas();
+				mensaje("\"" + arregloPeliculas.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+			}
+		}
+		dispose();
 	}
 }

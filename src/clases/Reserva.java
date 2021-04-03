@@ -6,6 +6,7 @@ public class Reserva {
 	private int codigoCliente;
 	private int codigoEmpleado;
 	private int codigoFuncion;
+	private int numeroEntradas;
 	private String fechaReserva;
 	private String horaReserva;
 	private int estado;	// 0 = Reservada 
@@ -15,18 +16,19 @@ public class Reserva {
 	
 	
 
-	// Constructor con 7 argumentos
+	// Constructor
 	public Reserva(int codigo, int codigoCliente, int codigoEmpleado, int codigoFuncion,
-			String fechaReserva, String horaReserva, int estado) {
+			int numeroEntradas, String fechaReserva, String horaReserva, int estado) {
 		this.codigo = codigo;
 		this.codigoCliente = codigoCliente;
 		this.codigoEmpleado = codigoEmpleado;
 		this.codigoFuncion = codigoFuncion;
+		this.numeroEntradas = numeroEntradas;
 		this.fechaReserva = fechaReserva;
 		this.horaReserva = horaReserva;
 		this.estado = estado;
 	}
-
+	
 	// Métodos de acceso público get y set
 	public int getCodigo() {
 		return codigo;
@@ -60,6 +62,14 @@ public class Reserva {
 		this.codigoFuncion = codigoFuncion;
 	}
 
+	public int getNumeroEntradas() {
+		return numeroEntradas;
+	}
+
+	public void setNumeroEntradas(int numeroEntradas) {
+		this.numeroEntradas = numeroEntradas;
+	}
+
 	public String getFechaReserva() {
 		return fechaReserva;
 	}
@@ -82,5 +92,21 @@ public class Reserva {
 
 	public void setEstado(int estado) {
 		this.estado = estado;
+	}
+	
+	public String getEstadoDescripcion() {
+		switch (getEstado()) {
+			case 0:
+				return "Reservada";
+				
+			case 1:
+				return "Reserva usada";
+			
+			case 2:
+				return "Reserva cancelada";
+				
+			default:
+				return "Reserva caducada";
+		}
 	}
 }

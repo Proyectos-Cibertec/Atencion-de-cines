@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,10 +21,13 @@ import javax.swing.table.DefaultTableModel;
 
 import arreglos.ArregloClientes;
 import clases.Cliente;
+import libreria.GeneradorClave;
+import libreria.LibreriaFechas;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPasswordField;
-public class DlgMantenimientoCliente extends JDialog implements ActionListener {
+import com.toedter.calendar.JDateChooser;
+public class DlgMantenimientoCliente extends JInternalFrame implements ActionListener {
 	/**
 	 * 
 	 */
@@ -83,10 +87,12 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public DlgMantenimientoCliente() {
-		setModal(true);
+		setMaximizable(true);
+		setIconifiable(true);
+		setClosable(true);
 		setResizable(false);
 		setTitle("Mantenimiento | Cliente");
-		setBounds(100, 100, 1033, 700);
+		setBounds(100, 100, 1033, 743);
 		getContentPane().setLayout(null);
 		
 		lblMensaje = new JLabel("Seleccione una acci\u00F3n");
@@ -115,7 +121,7 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		getContentPane().add(lblApellidoMaterno);
 		
 		lblEstadoCivil = new JLabel("Estado civil");
-		lblEstadoCivil.setBounds(27, 238, 53, 14);
+		lblEstadoCivil.setBounds(27, 265, 53, 14);
 		getContentPane().add(lblEstadoCivil);
 		
 		txtCodigo = new JTextField();
@@ -150,7 +156,7 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		cboEstadoCivil.addActionListener(this);
 		cboEstadoCivil.setEnabled(false);
 		cboEstadoCivil.setModel(new DefaultComboBoxModel<String>(new String[] {"Soltero", "Casado", "Viudo", "Divorciado"}));
-		cboEstadoCivil.setBounds(158, 235, 133, 20);
+		cboEstadoCivil.setBounds(158, 262, 133, 20);
 		getContentPane().add(cboEstadoCivil);
 		
 		btnBuscar = new JButton("Buscar");
@@ -160,10 +166,11 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		getContentPane().add(btnBuscar);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(27, 346, 969, 280);
+		scrollPane.setBounds(27, 373, 969, 297);
 		getContentPane().add(scrollPane);
 		
 		tblTabla = new JTable();
+		tblTabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tblTabla.setFillsViewportHeight(true);
 		scrollPane.setViewportView(tblTabla);
 		
@@ -205,6 +212,7 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		modelo.addColumn("Apellido Paterno");
 		modelo.addColumn("Apellido Materno");
 		modelo.addColumn("Dirección");
+		modelo.addColumn("Distrito");
 		modelo.addColumn("Fecha de nacimiento");
 		modelo.addColumn("Fecha de afiliación");
 		modelo.addColumn("Estado civil");
@@ -215,29 +223,29 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		tblTabla.setModel(modelo);
 		
 		lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(27, 288, 46, 14);
+		lblUsuario.setBounds(27, 315, 46, 14);
 		getContentPane().add(lblUsuario);
 		
 		lblContrasea = new JLabel("Contrase\u00F1a");
-		lblContrasea.setBounds(27, 313, 56, 14);
+		lblContrasea.setBounds(27, 340, 56, 14);
 		getContentPane().add(lblContrasea);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.addActionListener(this);
 		txtUsuario.setEditable(false);
-		txtUsuario.setBounds(158, 285, 184, 20);
+		txtUsuario.setBounds(158, 312, 184, 20);
 		getContentPane().add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		txtContraseña = new JPasswordField();
 		txtContraseña.addActionListener(this);
 		txtContraseña.setEditable(false);
-		txtContraseña.setBounds(158, 310, 184, 20);
+		txtContraseña.setBounds(158, 337, 184, 20);
 		getContentPane().add(txtContraseña);
 		
 		btnCerrar = new JButton("Cerrar");
 		btnCerrar.addActionListener(this);
-		btnCerrar.setBounds(907, 637, 89, 23);
+		btnCerrar.setBounds(906, 681, 89, 23);
 		getContentPane().add(btnCerrar);
 		
 		lblDireccion = new JLabel("Direcci\u00F3n");
@@ -252,57 +260,74 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		txtDireccion.setColumns(10);
 		
 		lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
-		lblFechaDeNacimiento.setBounds(27, 188, 98, 14);
+		lblFechaDeNacimiento.setBounds(27, 215, 98, 14);
 		getContentPane().add(lblFechaDeNacimiento);
 		
-		txtFechaNacimiento = new JTextField();
-		txtFechaNacimiento.addActionListener(this);
-		txtFechaNacimiento.setEditable(false);
-		txtFechaNacimiento.setBounds(158, 185, 133, 20);
-		getContentPane().add(txtFechaNacimiento);
-		txtFechaNacimiento.setColumns(10);
-		
 		lblFechaDeAfiliacion = new JLabel("Fecha de afiliaci\u00F3n");
-		lblFechaDeAfiliacion.setBounds(27, 213, 88, 14);
+		lblFechaDeAfiliacion.setBounds(27, 240, 88, 14);
 		getContentPane().add(lblFechaDeAfiliacion);
 		
-		txtFechaAfiliacion = new JTextField();
-		txtFechaAfiliacion.addActionListener(this);
-		txtFechaAfiliacion.setEditable(false);
-		txtFechaAfiliacion.setBounds(158, 210, 133, 20);
-		getContentPane().add(txtFechaAfiliacion);
-		txtFechaAfiliacion.setColumns(10);
-		
 		lblTelfono = new JLabel("Tel\u00E9fono");
-		lblTelfono.setBounds(27, 263, 46, 14);
+		lblTelfono.setBounds(27, 290, 46, 14);
 		getContentPane().add(lblTelfono);
 		
 		txtTelefono = new JTextField();
 		txtTelefono.addActionListener(this);
 		txtTelefono.setEditable(false);
-		txtTelefono.setBounds(158, 260, 133, 20);
+		txtTelefono.setBounds(158, 287, 133, 20);
 		getContentPane().add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
 		lblDni = new JLabel("DNI");
-		lblDni.setBounds(313, 263, 18, 14);
+		lblDni.setBounds(313, 241, 18, 14);
 		getContentPane().add(lblDni);
 		
 		txtDni = new JTextField();
 		txtDni.addActionListener(this);
 		txtDni.setEditable(false);
-		txtDni.setBounds(341, 260, 107, 20);
+		txtDni.setBounds(341, 238, 107, 20);
 		getContentPane().add(txtDni);
 		txtDni.setColumns(10);
 		
 		btnGrabar = new JButton("Grabar");
 		btnGrabar.addActionListener(this);
-		btnGrabar.setBounds(808, 637, 89, 23);
+		btnGrabar.setBounds(807, 681, 89, 23);
 		getContentPane().add(btnGrabar);
+		
+		txtFechaNacimiento = new JDateChooser();
+		txtFechaNacimiento.setDateFormatString("dd/MM/yyyy");
+		txtFechaNacimiento.setEnabled(false);
+		txtFechaNacimiento.setBounds(158, 211, 133, 20);
+		getContentPane().add(txtFechaNacimiento);
+		
+		txtFechaAfiliacion = new JDateChooser();
+		txtFechaAfiliacion.setEnabled(false);
+		txtFechaAfiliacion.setDateFormatString("dd/MM/yyyy");
+		txtFechaAfiliacion.setBounds(158, 236, 133, 20);
+		getContentPane().add(txtFechaAfiliacion);
+		
+		lblDistrito = new JLabel("Distrito");
+		lblDistrito.setBounds(27, 187, 46, 14);
+		getContentPane().add(lblDistrito);
+		
+		txtDistrito = new JTextField();
+		txtDistrito.setEditable(false);
+		txtDistrito.setBounds(158, 185, 290, 20);
+		getContentPane().add(txtDistrito);
+		txtDistrito.setColumns(10);
+		
+		btnGenerar = new JButton("Generar");
+		btnGenerar.setEnabled(false);
+		btnGenerar.addActionListener(this);
+		btnGenerar.setBounds(359, 311, 89, 23);
+		getContentPane().add(btnGenerar);
 		
 		listar();
 	}
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnGenerar) {
+			actionPerformedBtnGenerar(e);
+		}
 		if (e.getSource() == btnGrabar) {
 			actionPerformedBtnGrabar(e);
 		}
@@ -311,12 +336,6 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		}
 		if (e.getSource() == txtTelefono) {
 			actionPerformedTxtTelefono(e);
-		}
-		if (e.getSource() == txtFechaAfiliacion) {
-			actionPerformedTxtFechaAfiliacion(e);
-		}
-		if (e.getSource() == txtFechaNacimiento) {
-			actionPerformedTxtFechaNacimiento(e);
 		}
 		if (e.getSource() == txtDireccion) {
 			actionPerformedTxtDireccion(e);
@@ -367,6 +386,8 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	
 	// Declaración Global
 	ArregloClientes arregloClientes = new ArregloClientes("clientes.txt");
+	boolean cambios = false; // Permite saber si se hicieron cambios que necesitan guardarse
+	
 	private JLabel lblUsuario;
 	private JLabel lblContrasea;
 	private JTextField txtUsuario;
@@ -375,14 +396,17 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	private JLabel lblDireccion;
 	private JTextField txtDireccion;
 	private JLabel lblFechaDeNacimiento;
-	private JTextField txtFechaNacimiento;
 	private JLabel lblFechaDeAfiliacion;
-	private JTextField txtFechaAfiliacion;
 	private JLabel lblTelfono;
 	private JTextField txtTelefono;
 	private JLabel lblDni;
 	private JTextField txtDni;
 	private JButton btnGrabar;
+	private JDateChooser txtFechaNacimiento;
+	private JDateChooser txtFechaAfiliacion;
+	private JLabel lblDistrito;
+	private JTextField txtDistrito;
+	private JButton btnGenerar;
 	
 	protected void actionPerformedBtnIngresar(ActionEvent e) {
 		tipoOperacion = INGRESAR;
@@ -465,9 +489,10 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 					cliente.getApellidoPaterno(),
 					cliente.getApellidoMaterno(),
 					cliente.getDireccion(),
+					cliente.getDistrito(),
 					cliente.getFechaNacimiento(),
 					cliente.getFechaAfiliacion(),
-					cliente.descripcionEstadoCivil(),
+					cliente.getEstadoCivilDescripcion(),
 					cliente.getTelefono(),
 					cliente.getDni(),
 					cliente.getUsuario(),
@@ -486,57 +511,65 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 				if (apellidoMaterno.length() > 0) {
 					String direccion = leerDireccion();
 					if (direccion.length() > 0) {
-						String fechaNacimiento = leerFechaNacimiento();
-						if (fechaNacimiento.length() > 0) {
-							String fechaAfiliacion = leerFechaAfiliacion();
-							if (fechaAfiliacion.length() > 0) {
-								int estadoCivil = leerEstadoCivil();
-								String telefono = leerTelefono();
-								if (telefono.length() > 0) {
-									String dni = leerDni();
-									if (dni.length() > 0) {
-										String usuario = leerUsuario();
-										if (usuario.length() > 0) {
-											String contraseña = leerContraseña();
-											if (contraseña.length() > 0) {
-												// Datos correctos
-												Cliente cliente = new Cliente(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, fechaNacimiento, fechaAfiliacion, estadoCivil,  telefono, dni, usuario, contraseña);
-												arregloClientes.adicionar(cliente);
-												listar();
-												txtCodigo.setText("" + arregloClientes.codigoCorrelativo());
-												limpiarEntradas();
-												txtNombres.requestFocus();
-												mensaje("Registro exitoso");
-												
+						String distrito = leerDistrito();
+						if (distrito.length() > 0) {
+							String fechaNacimiento = leerFechaNacimiento();
+							if (fechaNacimiento.length() > 0) {
+								String fechaAfiliacion = leerFechaAfiliacion();
+								if (fechaAfiliacion.length() > 0) {
+									int estadoCivil = leerEstadoCivil();
+									String telefono = leerTelefono();
+									if (telefono.length() > 0) {
+										String dni = leerDni();
+										if (dni.length() > 0) {
+											String usuario = leerUsuario();
+											if (usuario.length() > 0) {
+												String contraseña = leerContraseña();
+												if (contraseña.length() > 0) {
+													// Datos correctos
+													Cliente cliente = new Cliente(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento, estadoCivil,  telefono, dni, usuario, contraseña, fechaAfiliacion);
+													arregloClientes.adicionar(cliente);
+													listar();
+													txtCodigo.setText("" + arregloClientes.codigoCorrelativo());
+													limpiarEntradas();
+													txtNombres.requestFocus();
+													mensaje("Registro exitoso");
+													cambios = true; // Variable que permite saber si se realizaron cambios en el array list 
+													
+												} else {
+													mensaje("Ingrese Contraseña correcta");
+													txtContraseña.setText("");
+													txtContraseña.requestFocus();
+												}
 											} else {
-												mensaje("Ingrese Contraseña correcta");
-												txtContraseña.setText("");
-												txtContraseña.requestFocus();
+												mensaje("Ingrese Usuario correcto");
+												txtUsuario.setText("");
+												txtUsuario.requestFocus();
 											}
 										} else {
-											mensaje("Ingrese Usuario correcto");
-											txtUsuario.setText("");
-											txtUsuario.requestFocus();
+											mensaje("Ingrese DNI correcto");
+											txtDni.setText("");
+											txtDni.requestFocus();
 										}
 									} else {
-										mensaje("Ingrese DNI correcto");
-										txtDni.setText("");
-										txtDni.requestFocus();
+										mensaje("Ingrese Teléfono correcto");
+										txtTelefono.setText("");
+										txtTelefono.requestFocus();
 									}
 								} else {
-									mensaje("Ingrese Teléfono correcto");
-									txtTelefono.setText("");
-									txtTelefono.requestFocus();
+									mensaje("Ingrese Fecha de afiliación correcta");
+									txtFechaAfiliacion.setDate(null);
+									txtFechaAfiliacion.requestFocus();
 								}
 							} else {
-								mensaje("Ingrese Fecha de afiliación correcta");
-								txtFechaAfiliacion.setText("");
-								txtFechaAfiliacion.requestFocus();
+								mensaje("Ingrese Fecha de nacimiento correcta");
+								txtFechaNacimiento.setDate(null);
+								txtFechaNacimiento.requestFocus();
 							}
 						} else {
-							mensaje("Ingrese Fecha de nacimiento correcta");
-							txtFechaNacimiento.setText("");
-							txtFechaNacimiento.requestFocus();
+							mensaje("Ingrese Distrito correcto");
+							txtDistrito.setText("");
+							txtDistrito.requestFocus();
 						}
 					} else {
 						mensaje("Ingrese Dirección correcta");
@@ -568,8 +601,9 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 				txtApellidoPaterno.setText(cliente.getApellidoPaterno());
 				txtApellidoMaterno.setText(cliente.getApellidoMaterno());
 				txtDireccion.setText(cliente.getDireccion());
-				txtFechaNacimiento.setText(cliente.getFechaNacimiento());
-				txtFechaAfiliacion.setText(cliente.getFechaAfiliacion());
+				txtDistrito.setText(cliente.getDistrito());
+				txtFechaNacimiento.setDate(LibreriaFechas.stringToDate(cliente.getFechaNacimiento()));
+				txtFechaAfiliacion.setDate(LibreriaFechas.stringToDate(cliente.getFechaAfiliacion()));
 				cboEstadoCivil.setSelectedIndex(cliente.getEstadoCivil());
 				txtTelefono.setText(cliente.getTelefono());
 				txtDni.setText(cliente.getDni());
@@ -598,70 +632,79 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 					if (apellidoMaterno.length() > 0) {
 						String direccion = leerDireccion();
 						if (direccion.length() > 0) {
-							String fechaNacimiento = leerFechaNacimiento();
-							if (fechaNacimiento.length() > 0) {
-								String fechaAfiliacion = leerFechaAfiliacion();
-								if (fechaAfiliacion.length() > 0) {
-									int estadoCivil = leerEstadoCivil();
-									String telefono = leerTelefono();
-									if (telefono.length() > 0) {
-										String dni = leerDni();
-										if (dni.length() > 0) {
-											String usuario = leerUsuario();
-											if (usuario.length() > 0) {
-												String contraseña = leerContraseña();
-												if (contraseña.length() > 0) {
-													// Datos correctos
-													int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar los datos del cliente seleccionado?",
-															"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
-															
-													if (respuesta == JOptionPane.YES_OPTION) {
-														cliente.setNombres(nombres);
-														cliente.setApellidoPaterno(apellidoPaterno);
-														cliente.setApellidoMaterno(apellidoMaterno);
-														cliente.setDireccion(direccion);
-														cliente.setFechaNacimiento(fechaNacimiento);
-														cliente.setFechaAfiliacion(fechaAfiliacion);
-														cliente.setEstadoCivil(estadoCivil);
-														cliente.setTelefono(telefono);
-														cliente.setDni(dni);
-														cliente.setUsuario(usuario);
-														cliente.setContraseña(contraseña);
-														listar();
-														txtCodigo.requestFocus();								
-														mensaje("Modificación exitosa");
+							String distrito = leerDistrito();
+							if (distrito.length() > 0) {
+								String fechaNacimiento = leerFechaNacimiento();
+								if (fechaNacimiento.length() > 0) {
+									String fechaAfiliacion = leerFechaAfiliacion();
+									if (fechaAfiliacion.length() > 0) {
+										int estadoCivil = leerEstadoCivil();
+										String telefono = leerTelefono();
+										if (telefono.length() > 0) {
+											String dni = leerDni();
+											if (dni.length() > 0) {
+												String usuario = leerUsuario();
+												if (usuario.length() > 0) {
+													String contraseña = leerContraseña();
+													if (contraseña.length() > 0) {
+														// Datos correctos
+														int respuesta = JOptionPane.showConfirmDialog(this, "¿Seguro que desea modificar los datos del cliente seleccionado?",
+																"Seleccionar una opción", JOptionPane.YES_NO_OPTION);
+																
+														if (respuesta == JOptionPane.YES_OPTION) {
+															cliente.setNombres(nombres);
+															cliente.setApellidoPaterno(apellidoPaterno);
+															cliente.setApellidoMaterno(apellidoMaterno);
+															cliente.setDireccion(direccion);
+															cliente.setDistrito(distrito);
+															cliente.setFechaNacimiento(fechaNacimiento);
+															cliente.setFechaAfiliacion(fechaAfiliacion);
+															cliente.setEstadoCivil(estadoCivil);
+															cliente.setTelefono(telefono);
+															cliente.setDni(dni);
+															cliente.setUsuario(usuario);
+															cliente.setContraseña(contraseña);
+															listar();
+															txtCodigo.requestFocus();								
+															mensaje("Modificación exitosa");
+															cambios = true; // Variable que permite saber si se realizaron cambios en el array list
+														}
+														
+													} else {
+														mensaje("Ingrese Contraseña correcta");
+														txtContraseña.setText("");
+														txtContraseña.requestFocus();
 													}
-													
 												} else {
-													mensaje("Ingrese Contraseña correcta");
-													txtContraseña.setText("");
-													txtContraseña.requestFocus();
+													mensaje("Ingrese Usuario correcto");
+													txtUsuario.setText("");
+													txtUsuario.requestFocus();
 												}
 											} else {
-												mensaje("Ingrese Usuario correcto");
-												txtUsuario.setText("");
-												txtUsuario.requestFocus();
+												mensaje("Ingrese DNI correcto");
+												txtDni.setText("");
+												txtDni.requestFocus();
 											}
 										} else {
-											mensaje("Ingrese DNI correcto");
-											txtDni.setText("");
-											txtDni.requestFocus();
+											mensaje("Ingrese Teléfono correcto");
+											txtTelefono.setText("");
+											txtTelefono.requestFocus();
 										}
 									} else {
-										mensaje("Ingrese Teléfono correcto");
-										txtTelefono.setText("");
-										txtTelefono.requestFocus();
+										mensaje("Ingrese Fecha de afiliación correcta");
+										txtFechaAfiliacion.setDate(null);
+										txtFechaAfiliacion.requestFocus();
 									}
 								} else {
-									mensaje("Ingrese Fecha de afiliación correcta");
-									txtFechaAfiliacion.setText("");
-									txtFechaAfiliacion.requestFocus();
+									mensaje("Ingrese Fecha de nacimiento correcta");
+									txtFechaNacimiento.setDate(null);
+									txtFechaNacimiento.requestFocus();
 								}
 							} else {
-								mensaje("Ingrese Fecha de nacimiento correcta");
-								txtFechaNacimiento.setText("");
-								txtFechaNacimiento.requestFocus();
-							}
+								mensaje("Ingrese Distrito correcto");
+								txtDistrito.setText("");
+								txtDistrito.requestFocus();
+							}							
 						} else {
 							mensaje("Ingrese Dirección correcta");
 							txtDireccion.setText("");
@@ -686,7 +729,6 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 			mensaje("Ingrese CÓDIGO correcto");
 			txtCodigo.setText("");
 			txtCodigo.requestFocus();
-			e.printStackTrace();
 		}
 	}
 	
@@ -704,6 +746,7 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 					limpiarEntradas();
 					txtCodigo.requestFocus();
 					mensaje("Eliminación exitosa");
+					cambios = true; // Variable que permite saber si se realizaron cambios en el array list
 				}
 			} else {
 				mensaje("El código " + leerCodigo() + " no existe");
@@ -723,8 +766,9 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		txtApellidoPaterno.setText("");
 		txtApellidoMaterno.setText("");
 		txtDireccion.setText("");
-		txtFechaNacimiento.setText("");
-		txtFechaAfiliacion.setText("");
+		txtDistrito.setText("");
+		txtFechaNacimiento.setDate(null);
+		txtFechaAfiliacion.setDate(LibreriaFechas.fechaActual()); // Por defecto es la fecha actual
 		cboEstadoCivil.setSelectedIndex(0);
 		txtTelefono.setText("");
 		txtDni.setText("");
@@ -738,13 +782,16 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		txtApellidoPaterno.setEditable(valor);
 		txtApellidoMaterno.setEditable(valor);
 		txtDireccion.setEditable(valor);
-		txtFechaNacimiento.setEditable(valor);
-		txtFechaAfiliacion.setEditable(valor);
+		txtDistrito.setEditable(valor);
+		txtFechaNacimiento.setEnabled(valor);
+		txtFechaAfiliacion.setEnabled(valor);
 		cboEstadoCivil.setEnabled(valor);
 		txtTelefono.setEditable(valor);
 		txtDni.setEditable(valor);
 		txtUsuario.setEditable(valor);
 		txtContraseña.setEditable(valor);
+		
+		btnGenerar.setEnabled(valor);
 	}
 	
 	// Habilita / Deshabilita botones
@@ -803,12 +850,18 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		return txtDireccion.getText().trim();
 	}
 	
+	String leerDistrito() {
+		return txtDistrito.getText().trim();
+	}
+	
 	String leerFechaNacimiento() {
-		return txtFechaNacimiento.getText().trim();
+		String fechaNacimiento = LibreriaFechas.dateToString(txtFechaNacimiento.getDate());
+		return (fechaNacimiento == null) ? "" : fechaNacimiento;
 	}
 	
 	String leerFechaAfiliacion() {
-		return txtFechaAfiliacion.getText().trim();
+		String fechaAfiliacion = LibreriaFechas.dateToString(txtFechaAfiliacion.getDate());
+		return (fechaAfiliacion == null) ? "" : fechaAfiliacion;
 	}
 	
 	int leerEstadoCivil() {
@@ -832,6 +885,14 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 	}
 	
 	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		if (cambios) {
+			int respuesta = confirmar("¿Desea guardar los cambios realizados en el archivo \"" + arregloClientes.getArchivo() + "\"?");
+			if (respuesta == JOptionPane.YES_OPTION) {
+				arregloClientes.grabarClientes();
+				mensaje("\"" + arregloClientes.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
+			}
+		}
 		dispose();
 	}
 	
@@ -863,14 +924,6 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		txtFechaNacimiento.requestFocus();
 	}
 	
-	protected void actionPerformedTxtFechaNacimiento(ActionEvent e) {
-		txtFechaAfiliacion.requestFocus();
-	}
-	
-	protected void actionPerformedTxtFechaAfiliacion(ActionEvent e) {
-		cboEstadoCivil.requestFocus();
-	}
-	
 	protected void actionPerformedTxtTelefono(ActionEvent e) {
 		txtDni.requestFocus();
 	}
@@ -884,15 +937,57 @@ public class DlgMantenimientoCliente extends JDialog implements ActionListener {
 		if (arregloClientes.existeArchivo()) {
 			int respuesta = confirmar("¿Seguro que desea actualizar \"" + arregloClientes.getArchivo() + "\"?");
 			if (respuesta == JOptionPane.YES_OPTION) {
+				// Se guardan los cambios en los archivos correspondientes
 				arregloClientes.grabarClientes();
 				mensaje("\"" + arregloClientes.getArchivo() + "\" ha sido actualizado");
+				cambios = false; // Permite saber que ya se guardaron los cambios en el arraylist
 			} else {
 				mensaje("No se actualizó \"" + arregloClientes.getArchivo() + "\"");
 			}
 		} else {
-			// Si no existe el archivo es creado
+			// Si no existe el archivo es creado y se guardan los cambios correspondientes
 			arregloClientes.grabarClientes();
 			mensaje("\"" + arregloClientes.getArchivo() + "\" ha sido creado");
+		}
+	}
+	
+	// Genera el usuario y la contraseña
+	protected void actionPerformedBtnGenerar(ActionEvent e) {
+		int codigo;
+		try {
+			codigo = leerCodigo();
+		} catch (Exception e2) {
+			mensaje("No se puede generar la contraseña porque no se encontró un código de Cliente");
+			txtCodigo.requestFocus();
+			return;
+		}
+		
+		String nombres = leerNombres().split(" ")[0]; // El primer nombre
+		String apellidoPaterno = leerApellidoPaterno();
+		String apellidoMaterno = leerApellidoMaterno();
+		
+		if (nombres.length() > 0) {
+			if (apellidoPaterno.length() > 0) {
+				if (apellidoMaterno.length() > 0) {
+					String usuario = GeneradorClave.generarUsuario(codigo, nombres, apellidoPaterno, apellidoMaterno);
+					String contraseña = GeneradorClave.generarContraseña(codigo, apellidoPaterno, apellidoMaterno);
+					txtUsuario.setText(usuario);
+					txtContraseña.setText(contraseña);
+					mensaje("Apunte en un lugar seguro los datos generados:\n\n" + 
+							"USUARIO             :    " + usuario + "\n" + 
+							"CONTRASEÑA    :    " + contraseña);
+					
+				} else {
+					mensaje("Debe haber ingresado el apellido materno del Cliente para generar su contraseña");
+					txtApellidoPaterno.requestFocus();
+				}
+			} else {
+				mensaje("Debe haber ingresado el apellido paterno del Cliente para generar su contraseña");
+				txtApellidoPaterno.requestFocus();
+			}
+		} else {
+			mensaje("Debe haber ingresado los nombres del Cliente para generar su contraseña");
+			txtNombres.requestFocus();
 		}
 	}
 }

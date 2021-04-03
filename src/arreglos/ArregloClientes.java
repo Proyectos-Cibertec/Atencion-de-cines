@@ -18,19 +18,18 @@ public class ArregloClientes {
 		clientes = new ArrayList<Cliente>();
 		this.archivo = archivo;
 		cargarClientes(); // Lectura en el archivo de texto de Clientes
-		
 		// Clientes de ejemplo
 		/*clientes.add(new Cliente(10001, "Julia", "Mendoza", "Ortega", 
-				"Jr Los Ópalos 2052", "25/11/1970", "15/07/2004", 1, 
-				"3751245", "08754242", "julia", "mendoza"));
+				"Jr Los Ópalos 2052", "San Juan de Lurigancho", "25/11/1970", 1, 
+				"3751245", "08754242", "julia", "mendoza", "15/07/2004"));
 		
 		clientes.add(new Cliente(10002, "María", "Ayala", "Apaza", 
-				"Calle Las Amatistas 1411", "25/11/1970", "15/07/2004", 2, 
-				"3751245", "08754242", "maria", "ayala"));
+				"Calle Las Amatistas 1411", "San Isidro", "25/11/1970", 2, 
+				"3751245", "08754242", "maria", "ayala", "15/07/2004"));
 		
 		clientes.add(new Cliente(10003, "Pedro", "Fernandez", "Marquez", 
-				"Av Cabo 111", "25/11/1970", "15/07/2004", 3, 
-				"3751245", "08754242", "pedro", "fernandez"));*/
+				"Av Cabo 111", "Los Olivos", "25/11/1970", 3, 
+				"3751245", "08754242", "pedro", "fernandez", "15/07/2004"));*/
 	}
 	
 	// Método de acceso público: set/get
@@ -92,8 +91,8 @@ public class ArregloClientes {
 			BufferedReader br;
 			String linea, s[];
 			int codigo, estadoCivil;
-			String nombres, apellidoPaterno, apellidoMaterno, direccion, fechaNacimiento,
-					fechaAfiliacion, telefono, dni, usuario, contraseña;
+			String nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento,
+					telefono, dni, usuario, contraseña, fechaAfiliacion;
 			br = new BufferedReader(new FileReader(archivo));
 			
 			while ((linea = br.readLine()) != null) {
@@ -103,15 +102,16 @@ public class ArregloClientes {
 				apellidoPaterno = s[2].trim();
 				apellidoMaterno = s[3].trim();
 				direccion 		= s[4].trim();
-				fechaNacimiento = s[5].trim();
-				fechaAfiliacion = s[6].trim();
-				estadoCivil		= Integer.parseInt(s[7].trim());
-				telefono 		= s[8].trim();
-				dni		 		= s[9].trim();
-				usuario 		= s[10].trim();
-				contraseña 		= s[11].trim();
-				adicionar(new Cliente(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, fechaNacimiento, 
-						fechaAfiliacion, estadoCivil, telefono, dni, usuario, contraseña));
+				distrito		= s[5].trim();
+				fechaNacimiento = s[6].trim();
+				fechaAfiliacion = s[7].trim();
+				estadoCivil		= Integer.parseInt(s[8].trim());
+				telefono 		= s[9].trim();
+				dni		 		= s[10].trim();
+				usuario 		= s[11].trim();
+				contraseña 		= s[12].trim();
+				adicionar(new Cliente(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, distrito,
+						fechaNacimiento, estadoCivil, telefono, dni, usuario, contraseña, fechaAfiliacion));
 			}
 			br.close();
 			
@@ -133,6 +133,7 @@ public class ArregloClientes {
 						cliente.getApellidoPaterno() + ";" + 
 						cliente.getApellidoMaterno() + ";" +
 						cliente.getDireccion() + ";" +
+						cliente.getDistrito() + ";" +
 						cliente.getFechaNacimiento() + ";" +
 						cliente.getFechaAfiliacion() + ";" +
 						cliente.getEstadoCivil() + ";" +

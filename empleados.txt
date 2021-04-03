@@ -1,5 +1,16 @@
-10001;Luis Alberto;Guisado;Mena;0;luis;guisado
-10002;Brian;Cruz;Rodriguez;1;brian;cruz
-10003;Eduardo;Vite;Mayaute;2;eduardo;vite
-10004;Jaime;Paredes;Trejo;0;jaime;paredes
-10005;Walter;Napán;Tarmeño;0;walter;napan
+10001;Luis Alberto;Guisado;Mena;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;luis;guisado
+10002;Jeny;Baez;Bustos;bbbbbbbbbbbbbbbb;bbbbbbbb;09/12/2016;14/12/2016;0;bbbbbbbb;bbbbbbbb;2;10002JenyBs;351BaezBust
+10003;Emilio;Arévalo;Zúñiga;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;1;10003EmilioAa;8000ArévZúñi
+10004;Matilde;Prieto;Guerra;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10005;Albertina;Rosas;Murillo;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10006;Gavina;Otero;Chávez;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10007;Irene;Melgar;Robles;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10008;Barbara;Velázquez;Leyva;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10009;Ana;Solano;Aguilera;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10010;Diego;Caraballo;Girón;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10011;Aria;Negrón;Nava;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10012;Quintiliano;Armijo;Saucedo;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10013;Flavie;Solano;Avilés;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10014;Máximo;Cisneros;Alonzo;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10015;Are;Gracia;Hurtado;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena
+10016;Alvino;Sanabria;Calvillo;Jr Los Ópalos 1245;San Juan de Lurigancho;16/12/1996;22/12/2016;0;987458865;45787875;0;10001LuisGa;5626GuisMena

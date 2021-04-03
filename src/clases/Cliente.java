@@ -1,5 +1,32 @@
 package clases;
 
+public class Cliente extends Usuario {
+	// Atributos privados
+	private String fechaAfiliacion;
+
+	// Constructor
+	public Cliente(int codigo, String nombres, String apellidoPaterno, String apellidoMaterno, String direccion,
+			String distrito, String fechaNacimiento, int estadoCivil, String telefono, String dni, String usuario,
+			String contraseña, String fechaAfiliacion) {
+		super(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento, estadoCivil,
+				telefono, dni, usuario, contraseña);
+		this.fechaAfiliacion = fechaAfiliacion;
+	}
+
+	// Métodos de acceso público get y set
+	public String getFechaAfiliacion() {
+		return fechaAfiliacion;
+	}
+
+	public void setFechaAfiliacion(String fechaAfiliacion) {
+		this.fechaAfiliacion = fechaAfiliacion;
+	}
+
+	
+}
+
+/*package clases;
+
 public class Cliente {
 	// Atributos privados
 	private int codigo;
@@ -153,3 +180,4 @@ public class Cliente {
 		return estadoCivil;
 	}
 }
+*/

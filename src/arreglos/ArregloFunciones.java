@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import clases.Funcion;
 
@@ -71,6 +72,28 @@ public class ArregloFunciones {
 			return 10001;
 		} else {
 			return obtener(tamaño() - 1).getCodigo() + 1;
+		}
+	}
+	
+	// Elimina todas las funciones de la sala cuyo código se le pasa como argumento
+	public void eliminarFuncionesDeSala(int codigoSala) {
+		Iterator<Funcion> itrFunciones = funciones.iterator();
+		while (itrFunciones.hasNext()) {
+			Funcion funcion= itrFunciones.next();
+			if (funcion.getCodigoSala() == codigoSala) {
+				itrFunciones.remove();
+			}
+		}
+	}
+	
+	// Elimina todas las funciones del cine cuyo código se le pasa como argumento
+	public void eliminarFuncionesDeCine(int codigoCine) {
+		Iterator<Funcion> itrFunciones = funciones.iterator();
+		while (itrFunciones.hasNext()) {
+			Funcion funcion= itrFunciones.next();
+			if (funcion.getCodigoCine() == codigoCine) {
+				itrFunciones.remove();
+			}
 		}
 	}
 	

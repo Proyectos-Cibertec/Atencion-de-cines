@@ -87,8 +87,9 @@ public class ArregloEmpleados {
 		try {
 			BufferedReader br;
 			String linea, s[];
-			int codigo, tipo;
-			String nombres, apellidoPaterno, apellidoMaterno, usuario, contraseña;
+			int codigo, tipo, estadoCivil;
+			String nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento,
+					fechaInicio, telefono, dni, usuario, contraseña;
 			br = new BufferedReader(new FileReader(archivo));
 			
 			while ((linea = br.readLine()) != null) {
@@ -97,10 +98,18 @@ public class ArregloEmpleados {
 				nombres 		= s[1].trim();
 				apellidoPaterno = s[2].trim();
 				apellidoMaterno = s[3].trim();
-				tipo 			= Integer.parseInt(s[4].trim());
-				usuario 		= s[5].trim();
-				contraseña 		= s[6].trim();
-				adicionar(new Empleado(codigo, nombres, apellidoPaterno, apellidoMaterno, tipo, usuario, contraseña));
+				direccion		= s[4].trim();
+				distrito		= s[5].trim();
+				fechaNacimiento	= s[6].trim();
+				fechaInicio		= s[7].trim();
+				estadoCivil		= Integer.parseInt(s[8].trim());
+				telefono		= s[9].trim();
+				dni				= s[10].trim();
+				tipo			= Integer.parseInt(s[11].trim());
+				usuario 		= s[12].trim();
+				contraseña 		= s[13].trim();
+				adicionar(new Empleado(codigo, nombres, apellidoPaterno, apellidoMaterno, direccion, distrito, fechaNacimiento, 
+						estadoCivil, telefono, dni, usuario, contraseña, tipo, fechaInicio));
 			}
 			br.close();
 			
@@ -121,6 +130,13 @@ public class ArregloEmpleados {
 						empleado.getNombres() + ";" + 
 						empleado.getApellidoPaterno() + ";" + 
 						empleado.getApellidoMaterno() + ";" + 
+						empleado.getDireccion() + ";" +
+						empleado.getDistrito() + ";" +
+						empleado.getFechaNacimiento() + ";" + 
+						empleado.getFechaInicio() + ";" +
+						empleado.getEstadoCivil() + ";" +
+						empleado.getTelefono() + ";" + 
+						empleado.getDni() + ";" + 
 						empleado.getTipo() + ";" +
 						empleado.getUsuario() + ";" +
 						empleado.getContraseña();
@@ -131,6 +147,8 @@ public class ArregloEmpleados {
 		} catch (Exception e) {
 
 		}
+		
+		
 	}
 	
 	// Se consulta la existencia del archivo

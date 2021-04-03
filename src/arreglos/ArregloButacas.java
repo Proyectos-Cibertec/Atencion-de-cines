@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import clases.Butaca;
 
 public class ArregloButacas {
@@ -72,7 +74,43 @@ public class ArregloButacas {
 			return obtener(tamaño() - 1).getCodigo() + 1;
 		}
 	}
+	
+	// Elimina todas las butacas de la sala cuyo código se le pasa como argumento
+	public void eliminarButacasDeSala(int codigoSala) {
+		Iterator<Butaca> itrButacas = butacas.iterator();
+		while (itrButacas.hasNext()) {
+			Butaca butaca = itrButacas.next();
+			if (butaca.getCodigoSala() == codigoSala) {
+				itrButacas.remove();
+			}
+		}
+	}
 
+	// Retorna la butaca en la fila y columna especificada de una determinada sala. Las f y c se indexan a partir de 1
+	public Butaca obtenerButaca(int codigoSala, int fila, int columna) {
+		for (Butaca butaca : butacas) {
+			if (butaca.getCodigoSala() == codigoSala) {
+				if (butaca.getNumeroFila() == fila && butaca.getNumeroColumna() == columna) {
+					return butaca; 
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	// Cambia el estado de las butacas a RESEVADA por codigo
+	public void reservarButaca(int codigo) {
+		Butaca butaca = buscar(codigo);
+		butaca.setEstado(0);
+	}
+	
+	// Cambia el estado de las butacas a DISPONIBLE por codigo
+	public void disponerButaca(int codigo) {
+		Butaca butaca = buscar(codigo);
+		butaca.setEstado(1);
+	}
+	
 	// Se lee del archivo de texto de Butacas
 	public void cargarButacas() {
 		try {
